@@ -5,8 +5,10 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import org.jsoup.nodes.Document;
+import net.unit8.moshas.dom.TemplateElement;
+import net.unit8.moshas.dom.TemplateNode;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -14,46 +16,68 @@ import org.jsoup.nodes.Element;
  */
 public class Snippet {
     private final List<TemplateProcessor> processors = new ArrayList<>();
-    private Element targetElement;
+    private TemplateElement targetElement;
 
     protected Snippet() {
         
     }
-    protected Snippet(Element targetElement) {
+    protected Snippet(TemplateElement targetElement) {
         this.targetElement = targetElement;
     }
     
-    public static Snippet define(Element el, TemplateDefinition def) {
+    public static Snippet define(TemplateElement el, TemplateDefinition def) {
         Snippet snippet = new Snippet(el);
         def.define(snippet);
         return snippet;
     }
+
+    private List<TemplateElement> selectAll(String query) {
+        Elements jels = ((Element) targetElement.getJsoupNode()).select(query);
+        List<TemplateElement> selectedElements = new ArrayList<>();
+        
+        TemplateNode root = targetElement;
+        TemplateNode node = targetElement;
+        int depth = 0;
+        
+        while (node != null) {
+            if (node instanceof TemplateElement && jels.contains(((TemplateElement) node).getJsoupNode())) {
+                selectedElements.add((TemplateElement) node);
+            }
+            if (node.childNodeSize() > 0) {
+                node = node.childNode(0);
+                depth++;
+            } else {
+                while (node.nextSibling() == null && depth > 0) {
+                    node = node.parentNode();
+                    depth--;
+                }
+                if (node == root)
+                    break;
+                node = node.nextSibling();
+            }
+        }
+        return selectedElements;
+    }
     
-    public Element select(String query) {
-        return targetElement.select(query).first();
+    public TemplateElement select(String query) {
+        return selectAll(query).get(0);
     }
         
     public void select(String selector, RenderFunction f) {
-        processors.add(new TemplateProcessor(selector, f));
+        processors.add(new TemplateProcessor(selectAll(selector), f));
     }
 
     public void root(RenderFunction f) {
         processors.add(new TemplateProcessor(null, f));
     }
     
-    public void selectSnippet(String selector, Snippet s) {
-        
-    }
-    
-    protected void setTargetElement(Element el) {
+    protected void setTargetElement(TemplateElement el) {
         this.targetElement = el;
     }
     
-    public Element render(Context context) {
-        Element cloneElement = targetElement.clone();
-        if (cloneElement instanceof Document) {
-            ((Document) cloneElement).outputSettings().syntax(Document.OutputSettings.Syntax.xml);
-        }
+    public TemplateElement render(Context context) {
+        final TemplateElement cloneElement = targetElement.clone();
+        
         processors.forEach((processor) -> {
             processor.process(cloneElement, context);
         });
@@ -61,18 +85,16 @@ public class Snippet {
     }
     
     public void render(Context context, OutputStream out) {
-        Element rendered = render(context);
         try {
-            out.write(rendered.html().getBytes("UTF-8"));
+            out.write(render(context).toString().getBytes("UTF-8"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     
     public void render(Context context, Writer writer) {
-        Element rendered = render(context);
         try {
-            writer.write(rendered.html());
+            writer.write(render(context).toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

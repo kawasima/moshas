@@ -1,11 +1,11 @@
 package net.unit8.moshas;
 
-import org.jsoup.nodes.Element;
+import net.unit8.moshas.dom.TemplateElement;
 
 /**
  *
  * @author kawasima
  */
 public interface RenderFunction {
-    void render(Element el, Context ctx);
+    void render(TemplateElement el, Context ctx);
 }

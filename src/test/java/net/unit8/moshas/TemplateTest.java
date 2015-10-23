@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.io.StringWriter;
 import org.junit.Test;
+import static net.unit8.moshas.RenderUtils.*;
 
 /**
  *
@@ -14,9 +15,7 @@ public class TemplateTest {
     @Test
     public void test() {
         Template index = Template.define(getClass().getClassLoader().getResource("META-INF/templates/index.html"), t -> {
-            t.select("p#message", (el, ctx) -> {
-                el.text((String) ctx.get("message"));
-            });
+            t.select("p#message", text("message"));
         });
         Context context = new Context();
         context.setVariable("message", "We changed the message!");
@@ -26,37 +25,33 @@ public class TemplateTest {
     @Test
     public void eachTest() {
         Template eachTemplate = Template.define(getClass().getClassLoader().getResource("META-INF/templates/each.html"), (t) -> {
-            t.select("#title", (el, ctx) -> {
-                el.text((String) ctx.get("title"));
-            });
-            Snippet link = Snippet.define(t.select(".section .content li"), s -> {
-                s.select("a", (el, ctx) -> {
-                    el.attr("href", (String) ctx.get("link", "href"));
-                    el.text((String) ctx.get("link", "text"));
-                });
-            });
+            t.select("#title", text("title"));
+            
+            Snippet linkSnippet = Snippet.define(t.select(".section .content li"), s ->
+                    s.select("a",
+                            doAll(
+                                    attr("href", "link", "href"),
+                                    text("link", "text"))));
 
-            Snippet sec = Snippet.define(t.select(".section"), s -> {
-                s.select(".title", (el, ctx) -> {
-                    el.text((String) ctx.get("section", "title"));
-                });
+            Snippet sectionSnippet = Snippet.define(t.select(".section"), s -> {
+                s.select(".title", text("section", "title"));
                 s.select(".content", (el, ctx)-> {
-                    el.children().remove();
+                    el.empty();
                     ctx.getCollection("section", "data").forEach(data -> {
-                        ctx.localScope("link", data, () -> {
-                            el.appendChild(link.render(ctx));
-                        });
+                        ctx.localScope("link", data, () ->
+                            el.appendChild(linkSnippet.render(ctx))
+                        );
                     });
                 });
             });
+            
             t.select("body", (el, ctx) -> {
-                el.children().remove();
-                ctx.getCollection("sections").forEach(section -> {
-                    ctx.localScope("section", section, () -> {
-                        el.appendChild(sec.render(ctx));
-                    });
-
-                });
+                el.empty();
+                ctx.getCollection("sections").forEach(section ->
+                    ctx.localScope("section", section, () ->
+                        el.appendChild(sectionSnippet.render(ctx))
+                    )
+                );
             });
         });
         Context context = new Context();
@@ -80,11 +75,13 @@ public class TemplateTest {
                                         "href", "http://www.compojure.org/docs/middleware")))
         ));
         long t1 = System.currentTimeMillis();
-        for (int i=0; i < 100; i++) {
+        /*
+        for (int i=0; i < 10000; i++) {
             StringWriter writer = new StringWriter();
             eachTemplate.render(context, writer);
             writer.toString();
-        }
+        }*/
+        eachTemplate.render(context, System.out);
         System.out.println("elaspe=" + (System.currentTimeMillis() - t1));
     }
 }
