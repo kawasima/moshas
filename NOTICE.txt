@@ -1,0 +1,12 @@
+Moshas
+Copyright 2015 kawasima
+
+-------------------------
+Attribution for Java Code
+-------------------------
+
+DOM parser and selector provided by Jonathan Hedley
+https://github.com/jhy/jsoup
+License: The MIT License (https://github.com/jhy/jsoup/blob/master/LICENSE)
+© 2009-2015, Jonathan Hedley <jonathan@hedley.net>
+
