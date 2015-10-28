@@ -1,22 +1,23 @@
 package net.unit8.moshas;
 
-import java.util.List;
-import net.unit8.moshas.dom.TemplateElement;
+import java.io.Serializable;
+import net.unit8.moshas.dom.Element;
+import net.unit8.moshas.select.Elements;
 
 /**
  *
  * @author kawasima
  */
-public class TemplateProcessor {
-    private final List<TemplateElement> selectedElements;
+public class TemplateProcessor implements Serializable {
+    private final Elements selectedElements;
     private final RenderFunction f;
-    public TemplateProcessor(List<TemplateElement> selectedElements, RenderFunction f) {
+    public TemplateProcessor(Elements selectedElements, RenderFunction f) {
         this.selectedElements = selectedElements;
         this.f = f;
         
     }
     
-    public void process(TemplateElement el, Context ctx) {
+    public void process(Element el, Context ctx) {
         if (selectedElements == null) {
             f.render(el, ctx);
         } else {

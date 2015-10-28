@@ -13,7 +13,7 @@ public class RenderUtils {
     
     public static RenderFunction attr(String attrName, String... keys) {
         return (el, ctx) ->  {
-            el.setAttr(attrName, ctx.getString(keys));
+            el.attr(attrName, ctx.getString(keys));
         };
     }
 

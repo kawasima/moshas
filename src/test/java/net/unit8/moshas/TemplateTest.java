@@ -14,7 +14,8 @@ import static net.unit8.moshas.RenderUtils.*;
 public class TemplateTest {
     @Test
     public void test() {
-        Template index = Template.define(getClass().getClassLoader().getResource("META-INF/templates/index.html"), t -> {
+        MoshasEngine engine = new MoshasEngine();
+        Template index = engine.defineTemplate("META-INF/templates/index.html", t -> {
             t.select("p#message", text("message"));
         });
         Context context = new Context();
@@ -24,23 +25,25 @@ public class TemplateTest {
     
     @Test
     public void eachTest() {
-        Template eachTemplate = Template.define(getClass().getClassLoader().getResource("META-INF/templates/each.html"), (t) -> {
+        MoshasEngine engine = new MoshasEngine();
+        Template eachTemplate = engine.defineTemplate("META-INF/templates/each.html", t -> {
             t.select("#title", text("title"));
             
-            Snippet linkSnippet = Snippet.define(t.select(".section .content li"), s ->
+            Snippet linkSnippet = engine.defineSnippet("META-INF/templates/each.html" , ".section .content li", s ->
                     s.select("a",
                             doAll(
                                     attr("href", "link", "href"),
                                     text("link", "text"))));
 
-            Snippet sectionSnippet = Snippet.define(t.select(".section"), s -> {
+            Snippet sectionSnippet = engine.defineSnippet("META-INF/templates/each.html",".section", s -> {
                 s.select(".title", text("section", "title"));
                 s.select(".content", (el, ctx)-> {
                     el.empty();
+
                     ctx.getCollection("section", "data").forEach(data -> {
-                        ctx.localScope("link", data, () ->
-                            el.appendChild(linkSnippet.render(ctx))
-                        );
+                        ctx.localScope("link", data, () -> {
+                            el.appendChild(linkSnippet.render(ctx));
+                        });
                     });
                 });
             });
@@ -75,12 +78,11 @@ public class TemplateTest {
                                         "href", "http://www.compojure.org/docs/middleware")))
         ));
         long t1 = System.currentTimeMillis();
-        /*
-        for (int i=0; i < 10000; i++) {
+        for (int i=0; i < 1; i++) {
             StringWriter writer = new StringWriter();
             eachTemplate.render(context, writer);
             writer.toString();
-        }*/
+        }
         eachTemplate.render(context, System.out);
         System.out.println("elaspe=" + (System.currentTimeMillis() - t1));
     }

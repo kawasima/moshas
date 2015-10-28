@@ -2,91 +2,65 @@ package net.unit8.moshas;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import net.unit8.moshas.dom.TemplateElement;
-import net.unit8.moshas.dom.TemplateNode;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import net.unit8.moshas.dom.RenderingId;
+import net.unit8.moshas.dom.SlotManager;
+import net.unit8.moshas.dom.Element;
 
 /**
  *
  * @author kawasima
  */
-public class Snippet {
+public class Snippet implements Serializable {
     private final List<TemplateProcessor> processors = new ArrayList<>();
-    private TemplateElement targetElement;
+    private Element rootElement;
 
     protected Snippet() {
         
     }
-    protected Snippet(TemplateElement targetElement) {
-        this.targetElement = targetElement;
+    protected Snippet(Element rootElement) {
+        this.rootElement = rootElement;
     }
     
-    public static Snippet define(TemplateElement el, TemplateDefinition def) {
-        Snippet snippet = new Snippet(el);
-        def.define(snippet);
-        return snippet;
-    }
-
-    private List<TemplateElement> selectAll(String query) {
-        Elements jels = ((Element) targetElement.getJsoupNode()).select(query);
-        List<TemplateElement> selectedElements = new ArrayList<>();
-        
-        TemplateNode root = targetElement;
-        TemplateNode node = targetElement;
-        int depth = 0;
-        
-        while (node != null) {
-            if (node instanceof TemplateElement && jels.contains(((TemplateElement) node).getJsoupNode())) {
-                selectedElements.add((TemplateElement) node);
-            }
-            if (node.childNodeSize() > 0) {
-                node = node.childNode(0);
-                depth++;
-            } else {
-                while (node.nextSibling() == null && depth > 0) {
-                    node = node.parentNode();
-                    depth--;
-                }
-                if (node == root)
-                    break;
-                node = node.nextSibling();
-            }
-        }
-        return selectedElements;
-    }
-    
-    public TemplateElement select(String query) {
-        return selectAll(query).get(0);
-    }
-        
     public void select(String selector, RenderFunction f) {
-        processors.add(new TemplateProcessor(selectAll(selector), f));
+        processors.add(new TemplateProcessor(rootElement.select(selector), f));
     }
 
     public void root(RenderFunction f) {
         processors.add(new TemplateProcessor(null, f));
     }
     
-    protected void setTargetElement(TemplateElement el) {
-        this.targetElement = el;
+    protected void setRootElement(Element el) {
+        this.rootElement = el;
     }
     
-    public TemplateElement render(Context context) {
-        final TemplateElement cloneElement = targetElement.clone();
-        
-        processors.forEach((processor) -> {
-            processor.process(cloneElement, context);
-        });
-        return cloneElement;
+    protected Element getRootElement() {
+        return rootElement;
+    }
+    
+    public Element render(Context context) {
+        final Element cloneElement = rootElement.clone();
+
+        int id = RenderingId.push();
+        try {
+            processors.forEach((processor) -> {
+                processor.process(cloneElement, context);
+            });
+            cloneElement.cachedHtml();
+            System.out.println("rendred=" + cloneElement.renderedHtml());
+            return cloneElement;
+        } finally {
+            int nowId = RenderingId.pop();
+            SlotManager.clear(nowId);
+        }
     }
     
     public void render(Context context, OutputStream out) {
         try {
-            out.write(render(context).toString().getBytes("UTF-8"));
+            out.write(render(context).cachedHtml().getBytes("UTF-8"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -94,7 +68,7 @@ public class Snippet {
     
     public void render(Context context, Writer writer) {
         try {
-            writer.write(render(context).toString());
+            writer.write(render(context).cachedHtml());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
