@@ -13,5 +13,5 @@ public class Template extends Snippet {
     protected Template(InputStream is) throws IOException {
         Document doc = DataUtil.load(is, "UTF-8", "");
         super.setRootElement(doc);
-    }    
+    }
 }

@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <name>moshas</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/kawasima/moshas.git</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

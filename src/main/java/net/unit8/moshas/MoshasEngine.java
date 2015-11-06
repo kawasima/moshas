@@ -1,6 +1,8 @@
 package net.unit8.moshas;
 
 import net.unit8.moshas.dom.Element;
+import net.unit8.moshas.dom.Node;
+import net.unit8.moshas.select.NodeTraversor;
 
 /**
  *
@@ -12,6 +14,11 @@ public class MoshasEngine {
     public Template defineTemplate(String source, TemplateDefinition def) {
         Template template = manager.getTemplate(source);
         def.define(template);
+        // TODO normalize
+        Element root = template.getRootElement();
+        for (Element child : root.children()) {
+            child.selected();
+        }
         return template;
     }
     

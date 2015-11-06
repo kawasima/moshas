@@ -6,9 +6,12 @@ import java.io.Serializable;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.unit8.moshas.context.Context;
 import net.unit8.moshas.dom.RenderingId;
 import net.unit8.moshas.dom.SlotManager;
 import net.unit8.moshas.dom.Element;
+import net.unit8.moshas.select.Elements;
 
 /**
  *
@@ -26,10 +29,15 @@ public class Snippet implements Serializable {
     }
     
     public void select(String selector, RenderFunction f) {
-        processors.add(new TemplateProcessor(rootElement.select(selector), f));
+        Elements elements = rootElement.select(selector);
+        for (Element el : elements) {
+            el.selected();
+        }
+        processors.add(new TemplateProcessor(elements, f));
     }
 
     public void root(RenderFunction f) {
+        rootElement.selected();
         processors.add(new TemplateProcessor(null, f));
     }
     
@@ -50,7 +58,7 @@ public class Snippet implements Serializable {
                 processor.process(cloneElement, context);
             });
             cloneElement.cachedHtml();
-            System.out.println("rendred=" + cloneElement.renderedHtml());
+            cloneElement.renderedHtml();
             return cloneElement;
         } finally {
             int nowId = RenderingId.pop();

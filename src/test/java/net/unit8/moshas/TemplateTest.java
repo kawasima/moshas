@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.io.StringWriter;
+
+import net.unit8.moshas.context.Context;
 import org.junit.Test;
 import static net.unit8.moshas.RenderUtils.*;
 

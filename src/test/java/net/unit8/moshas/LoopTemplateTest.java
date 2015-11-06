@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import net.unit8.moshas.context.Context;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

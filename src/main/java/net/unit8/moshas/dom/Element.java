@@ -24,6 +24,7 @@ import net.unit8.moshas.select.SkippableNodeVisitor;
  */
 public class Element extends Node implements Cloneable {
     private Tag tag;
+    private boolean selectedForRendering = false;
     
     private static final Pattern classSplit = Pattern.compile("\\s+");
 
@@ -55,15 +56,6 @@ public class Element extends Node implements Cloneable {
         this(tag, baseUri, new Attributes());
     }
 
-    /*
-    public Element(Element element, Node parent) {
-        super(element, parent);
-        this.tagName = element.tagName();
-        this.isSelfClosing = element.tag().isSelfClosing();
-        this.childNodes.put(0, new ArrayList<>(element.childNodeSize()));
-    }
-    */
-    
     @Override
     public String nodeName() {
         return tag.getName();
@@ -532,7 +524,12 @@ public class Element extends Node implements Cloneable {
     private void html(StringBuilder accum) {
         for (Node node : childNodes())
             node.outerHtml(accum);
-    }    
+    }
+
+    public void selected() {
+        selectedForRendering = true;
+    }
+
     @Override
     public Element clone() {
         return (Element) super.clone();

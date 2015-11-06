@@ -1,6 +1,8 @@
 package net.unit8.moshas;
 
 import java.io.Serializable;
+
+import net.unit8.moshas.context.Context;
 import net.unit8.moshas.dom.Element;
 import net.unit8.moshas.select.Elements;
 
