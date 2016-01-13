@@ -10,7 +10,6 @@ import net.unit8.moshas.helper.Validate;
 import net.unit8.moshas.parser.Tag;
 import net.unit8.moshas.select.Collector;
 import net.unit8.moshas.select.Evaluator;
-import static sun.invoke.anon.ConstantPoolVisitor.tagName;
 
 /**
  *
