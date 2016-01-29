@@ -15,7 +15,7 @@ public class Context extends AbstractContext {
     public Context(Map<String, Object> variables) {
         super();
         for (Map.Entry<String, Object> entry : variables.entrySet()) {
-            variables.put(entry.getKey(), entry.getValue());
+            setVariable(entry.getKey(), entry.getValue());
         }
     }
 }

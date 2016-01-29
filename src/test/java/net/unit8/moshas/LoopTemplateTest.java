@@ -52,9 +52,9 @@ public class LoopTemplateTest {
                     }
                     el.text(ctx.getString("stock", "ratio"));
                 });
-                
+
             });
-            
+
             t.select("tbody", (el, ctx) -> {
                 el.empty();
                 AtomicInteger counter = new AtomicInteger(0);
@@ -64,10 +64,10 @@ public class LoopTemplateTest {
                     });
                 });
             });
-            
+
         });
     }
-    
+
     protected Map<String, Object> getContext() {
         Map<String, Object> ctx = new HashMap<>();
         ctx.put("items", Stock.dummyItems());
@@ -77,19 +77,19 @@ public class LoopTemplateTest {
     @Test
     public void benchmark() throws IOException, InterruptedException {
         ExecutorService service = Executors.newFixedThreadPool(100);
-        
-        for (int i=0; i<1000; i++) {
+
+        for (int i=0; i<100; i++) {
             service.execute(() -> {
                 Context context = new Context(getContext());
                 Writer writer = new StringWriter();
                 template.render(context, writer);
-                Assert.assertEquals(5634, writer.toString().length());
+                Assert.assertEquals(5948, writer.toString().length());
             });
         }
         service.shutdown();
         service.awaitTermination(10, TimeUnit.SECONDS);
-        
+
         Context context = new Context(getContext());
         template.render(context, System.out);
-    }    
+    }
 }

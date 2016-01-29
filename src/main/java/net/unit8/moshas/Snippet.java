@@ -22,17 +22,15 @@ public class Snippet implements Serializable {
     private Element rootElement;
 
     protected Snippet() {
-        
+
     }
     protected Snippet(Element rootElement) {
         this.rootElement = rootElement;
     }
-    
+
     public void select(String selector, RenderFunction f) {
         Elements elements = rootElement.select(selector);
-        for (Element el : elements) {
-            el.selected();
-        }
+        elements.forEach(Element::selected);
         processors.add(new TemplateProcessor(elements, f));
     }
 
@@ -40,15 +38,15 @@ public class Snippet implements Serializable {
         rootElement.selected();
         processors.add(new TemplateProcessor(null, f));
     }
-    
+
     protected void setRootElement(Element el) {
         this.rootElement = el;
     }
-    
+
     protected Element getRootElement() {
         return rootElement;
     }
-    
+
     public Element render(Context context) {
         final Element cloneElement = rootElement.clone();
 
@@ -65,7 +63,7 @@ public class Snippet implements Serializable {
             SlotManager.clear(nowId);
         }
     }
-    
+
     public void render(Context context, OutputStream out) {
         try {
             out.write(render(context).cachedHtml().getBytes("UTF-8"));
@@ -73,7 +71,7 @@ public class Snippet implements Serializable {
             throw new RuntimeException(e);
         }
     }
-    
+
     public void render(Context context, Writer writer) {
         try {
             writer.write(render(context).cachedHtml());

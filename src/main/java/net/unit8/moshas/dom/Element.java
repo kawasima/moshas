@@ -25,12 +25,12 @@ import net.unit8.moshas.select.SkippableNodeVisitor;
 public class Element extends Node implements Cloneable {
     private Tag tag;
     private boolean selectedForRendering = false;
-    
+
     private static final Pattern classSplit = Pattern.compile("\\s+");
 
         /**
      * Create a new, standalone Element. (Standalone in that is has no parent.)
-     * 
+     *
      * @param tag tag of this element
      * @param baseUri the base URI
      * @param attributes initial attributes
@@ -39,14 +39,14 @@ public class Element extends Node implements Cloneable {
      */
     public Element(Tag tag, String baseUri, Attributes attributes) {
         super(baseUri, attributes);
-        
-        Validate.notNull(tag);    
+
+        Validate.notNull(tag);
         this.tag = tag;
     }
 
     /**
      * Create a new Element from a tag and a base URI.
-     * 
+     *
      * @param tag element tag
      * @param baseUri the base URI of this element. It is acceptable for the base URI to be an empty
      *            string, but not null.
@@ -63,21 +63,21 @@ public class Element extends Node implements Cloneable {
 
     /**
      * Get the Tag for this element.
-     * 
+     *
      * @return the tag object
      */
     public Tag tag() {
         return tag;
     }
-    
+
     public String tagName() {
         return tag.getName();
     }
-    
+
     /**
      * Test if this element is a block-level element. (E.g. {@code <div> == true} or an inline element
      * {@code <p> == false}).
-     * 
+     *
      * @return true if block, false if not (and thus inline)
      */
     public boolean isBlock() {
@@ -86,7 +86,7 @@ public class Element extends Node implements Cloneable {
 
     /**
      * Get the {@code id} attribute of this element.
-     * 
+     *
      * @return The id attribute, if present, or an empty string if not.
      */
     public String id() {
@@ -103,7 +103,7 @@ public class Element extends Node implements Cloneable {
      * Note that an element can have both mixed Nodes and Elements as children. This method inspects
      * a filtered list of children that are elements, and the index is based on that filtered list.
      * </p>
-     * 
+     *
      * @param index the index number of the element to retrieve
      * @return the child element, if it exists, otherwise throws an {@code IndexOutOfBoundsException}
      * @see #childNode(int)
@@ -111,7 +111,7 @@ public class Element extends Node implements Cloneable {
     public Element child(int index) {
         return children().get(index);
     }
-   
+
     /**
      * Get this element's child elements.
      * <p>
@@ -145,7 +145,7 @@ public class Element extends Node implements Cloneable {
      * <p>
      * See the query syntax documentation in {@link org.jsoup.select.Selector}.
      * </p>
-     * 
+     *
      * @param cssQuery a {@link Selector} CSS-like query
      * @return elements that match the query (empty if none match)
      * @see org.jsoup.select.Selector
@@ -157,7 +157,7 @@ public class Element extends Node implements Cloneable {
 
     /**
      * Find all elements under this element (including self, and children of children).
-     * 
+     *
      * @return all elements
      */
     public Elements getAllElements() {
@@ -182,7 +182,7 @@ public class Element extends Node implements Cloneable {
     }
 
     /**
-     * Gets the next sibling element of this element. E.g., if a {@code div} contains two {@code p}s, 
+     * Gets the next sibling element of this element. E.g., if a {@code div} contains two {@code p}s,
      * the {@code nextElementSibling} of the first {@code p} is the second {@code p}.
      * <p>
      * This is similar to {@link #nextSibling()}, but specifically finds only Elements
@@ -217,7 +217,7 @@ public class Element extends Node implements Cloneable {
             return null;
     }
 
-        
+
     /**
      * Get the list index of this element in its element sibling list. I.e. if this is the first element
      * sibling, returns 0.
@@ -225,7 +225,7 @@ public class Element extends Node implements Cloneable {
      */
     public Integer elementSiblingIndex() {
        if (parent() == null) return 0;
-       return indexInList(this, parent().children()); 
+       return indexInList(this, parent().children());
     }
 
     private static <E extends Element> Integer indexInList(Element search, List<E> elements) {
@@ -242,7 +242,7 @@ public class Element extends Node implements Cloneable {
 
     /**
      * Add a node child node to this element.
-     * 
+     *
      * @param child node to add.
      * @return this element, so that you can add more child nodes or elements.
      */
@@ -254,7 +254,7 @@ public class Element extends Node implements Cloneable {
 
         return this;
     }
-    
+
     /**
      * Gets the literal value of this element's "class" attribute, which may include multiple class names, space
      * separated. (E.g. on <code>&lt;div class="header gray"&gt;</code> returns, "<code>header gray</code>")
@@ -288,7 +288,7 @@ public class Element extends Node implements Cloneable {
         attributes().put("class", StringUtil.join(classNames, " "));
         return this;
     }
-    
+
     /**
      * Tests if this element has a class. Case insensitive.
      * @param className name of class to check for
@@ -345,9 +345,9 @@ public class Element extends Node implements Cloneable {
 
         return this;
     }
-    
+
     /*--------------------------------------Text-------------------------------*/
-    
+
     /**
      * Gets the combined text of this element and all its children. Whitespace is normalized and trimmed.
      * <p>
@@ -431,7 +431,7 @@ public class Element extends Node implements Cloneable {
         return false;
     }
 
-    
+
     public Element text(String text) {
         empty();
         TextNode textNode = new TextNode(text, "");
@@ -446,12 +446,12 @@ public class Element extends Node implements Cloneable {
         SlotManager.add(this);
         return this;
     }
-    
+
     @Override
     public void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out) {
         if (accum.length() > 0 && out.prettyPrint() && tag.formatAsBlock() || (parent() != null && (parent().tag().formatAsBlock())))
             indent(accum, depth, out);
-        
+
         accum.append("<")
                 .append(tagName());
         attributes().html(accum, out);
@@ -475,11 +475,14 @@ public class Element extends Node implements Cloneable {
             accum.append("</").append(tagName()).append(">");
         }
     }
-    
+
     public String cachedHtml() {
         if (renderedHtml == null) {
             final Document.OutputSettings out = getOutputSettings();
             final StringBuilder accum = new StringBuilder(4096);
+            if (!(this instanceof Document)) {
+                outerHtmlHead(accum, 0, out);
+            }
             for (Node node : childNodes()) {
                 new SkippableNodeTraversor(new SkippableNodeVisitor() {
                     @Override
@@ -491,7 +494,7 @@ public class Element extends Node implements Cloneable {
                         }
                         return node.renderedHtml != null;
                     }
-                    
+
                     @Override
                     public boolean tail(Node node, int depth) {
                         if (!node.nodeName().equals("#text") && node.renderedHtml == null) // saves a void hit.
@@ -500,18 +503,21 @@ public class Element extends Node implements Cloneable {
                     }
                 }).traverse(node);
             }
+            if (!(this instanceof Document)) {
+                outerHtmlTail(accum, 0, out);
+            }
             renderedHtml = accum.toString();
         }
         return renderedHtml;
     }
-    
+
     public String renderedHtml() {
         return renderedHtml;
     }
     /**
      * Retrieves the element's inner HTML. E.g. on a {@code <div>} with one empty {@code <p>}, would return
      * {@code <p></p>}. (Whereas {@link #outerHtml()} would return {@code <div><p></p></div>}.)
-     * 
+     *
      * @return String of HTML.
      * @see #outerHtml()
      */
