@@ -3,6 +3,7 @@ package net.unit8.moshas;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,11 +26,11 @@ import net.unit8.moshas.loader.TemplateNotFoundException;
 public class StandardTemplateManager implements TemplateManager {
     private List<TemplateLoader> templateLoaders;
     private Cache<String, Template> cache;
-    
+
     public StandardTemplateManager() {
         templateLoaders = new ArrayList<>();
         templateLoaders.add(new ResourceTemplateLoader());
-        
+
         Iterator<CachingProvider> cachingProviders = Caching.getCachingProviders().iterator();
 
         if (cachingProviders.hasNext()) {
@@ -44,7 +45,7 @@ public class StandardTemplateManager implements TemplateManager {
             }
         }
     }
-    
+
     @Override
     public Template getTemplate(String source) {
         if (cache != null) {
@@ -63,11 +64,15 @@ public class StandardTemplateManager implements TemplateManager {
             throw new TemplateNotFoundException(source, e);
         }
     }
-    
-    public void setTemplateLoaders(List<TemplateLoader> loaders) {
-        this.templateLoaders = loaders;
+
+    @Override
+    public void setTemplateLoaders(TemplateLoader... loaders) {
+        if (loaders == null)
+            throw new IllegalArgumentException("loaders is required");
+
+        this.templateLoaders = Arrays.asList(loaders);
     }
-    
+
     protected InputStream findTemplate(String source) {
         for (TemplateLoader loader : templateLoaders) {
             InputStream is = loader.getTemplateStream(source);
@@ -75,7 +80,7 @@ public class StandardTemplateManager implements TemplateManager {
                 return is;
             }
         }
-        
+
         throw new TemplateNotFoundException("Template not found " + source);
     }
 }

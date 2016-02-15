@@ -23,7 +23,7 @@ public class Entities {
         /** Complete HTML entities. */
         extended(fullByVal);
 
-        private Map<Character, String> map;
+        private final Map<Character, String> map;
 
         EscapeMode(Map<Character, String> map) {
             this.map = map;
@@ -69,7 +69,7 @@ public class Entities {
     public static Character getCharacterByName(String name) {
         return full.get(name);
     }
-    
+
     static String escape(String string, Document.OutputSettings out) {
         StringBuilder accum = new StringBuilder(string.length() * 2);
         escape(accum, string, out, false, false, false);
@@ -263,5 +263,5 @@ public class Entities {
             }
         }
         return outMap;
-    }    
+    }
 }

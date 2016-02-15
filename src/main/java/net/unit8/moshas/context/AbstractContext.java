@@ -68,7 +68,7 @@ public abstract class AbstractContext implements IContext {
             return new ArrayList<>();
         }
         if (val instanceof Collection) {
-            return (Collection) val;
+            return (Collection<E>) val;
         } else if (val.getClass().isArray()) {
             return Arrays.asList((E[]) val);
         } else {

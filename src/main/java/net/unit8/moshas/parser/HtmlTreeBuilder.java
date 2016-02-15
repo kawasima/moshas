@@ -1,16 +1,11 @@
 package net.unit8.moshas.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-import net.unit8.moshas.dom.Comment;
-import net.unit8.moshas.dom.DataNode;
-import net.unit8.moshas.dom.Document;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.select.Elements;
-import net.unit8.moshas.dom.Node;
-import net.unit8.moshas.dom.TextNode;
+import net.unit8.moshas.dom.*;
 import net.unit8.moshas.helper.StringUtil;
 import net.unit8.moshas.helper.Validate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * HTML Tree Builder; creates a DOM from Tokens.
@@ -39,9 +34,9 @@ public class HtmlTreeBuilder extends TreeBuilder {
     private boolean baseUriSetFromDoc = false;
     private Element headElement; // the current head element
     private Element contextElement; // fragment parse context -- could be null even if fragment parsing
-    private ArrayList<Element> formattingElements = new ArrayList<Element>(); // active (open) formatting elements
+    private final ArrayList<Element> formattingElements = new ArrayList<Element>(); // active (open) formatting elements
     private List<String> pendingTableCharacters = new ArrayList<String>(); // chars in table to be shifted out
-    private Token.EndTag emptyEnd = new Token.EndTag(); // reused empty end tag
+    private final Token.EndTag emptyEnd = new Token.EndTag(); // reused empty end tag
 
     private boolean framesetOk = true; // if ok to go into frameset
     private boolean fosterInserts = false; // if next inserts should be fostered
@@ -172,7 +167,7 @@ public class HtmlTreeBuilder extends TreeBuilder {
             tokeniser.emit(emptyEnd.reset().name(el.tagName()));  // ensure we get out of whatever state we are in. emitted for yielded processing
             return el;
         }
-        
+
         Element el = new Element(Tag.valueOf(startTag.name()), baseUri, startTag.attributes);
         insert(el);
         return el;
@@ -407,7 +402,7 @@ public class HtmlTreeBuilder extends TreeBuilder {
     }
 
     // todo: tidy up in specific scope methods
-    private String[] specificScopeTarget = {null};
+    private final String[] specificScopeTarget = {null};
 
     private boolean inSpecificScope(String targetName, String[] baseTypes, String[] extraTypes) {
         specificScopeTarget[0] = targetName;

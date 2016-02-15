@@ -23,7 +23,7 @@ import net.unit8.moshas.select.SkippableNodeVisitor;
  * @author kawasima
  */
 public class Element extends Node implements Cloneable {
-    private Tag tag;
+    private final Tag tag;
     private boolean selectedForRendering = false;
 
     private static final Pattern classSplit = Pattern.compile("\\s+");
@@ -285,7 +285,8 @@ public class Element extends Node implements Cloneable {
      */
     public Element classNames(Set<String> classNames) {
         Validate.notNull(classNames);
-        attributes().put("class", StringUtil.join(classNames, " "));
+        //attr("class", StringUtil.join(classNames, " "));
+        attr("class", StringUtil.join(classNames, " "));
         return this;
     }
 
@@ -449,7 +450,7 @@ public class Element extends Node implements Cloneable {
 
     @Override
     public void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out) {
-        if (accum.length() > 0 && out.prettyPrint() && tag.formatAsBlock() || (parent() != null && (parent().tag().formatAsBlock())))
+        if (accum.length() > 0 && out.prettyPrint() && (tag.formatAsBlock() || (parent() != null && (parent().tag().formatAsBlock()))))
             indent(accum, depth, out);
 
         accum.append("<")
@@ -479,6 +480,7 @@ public class Element extends Node implements Cloneable {
     public String cachedHtml() {
         if (renderedHtml == null) {
             final Document.OutputSettings out = getOutputSettings();
+            out.prettyPrint(false);
             final StringBuilder accum = new StringBuilder(4096);
             if (!(this instanceof Document)) {
                 outerHtmlHead(accum, 0, out);

@@ -22,7 +22,7 @@ public abstract class Node implements Serializable, Cloneable {
     Map<Integer, Attributes> attributes  = new ConcurrentHashMap<>();
     String baseUri;
     int siblingIndex;
-    
+
     protected String outerHtmlHead;
     protected String outerHtmlTail;
     protected String renderedHtml;
@@ -40,7 +40,7 @@ public abstract class Node implements Serializable, Cloneable {
     protected Node(String baseUri) {
         this(baseUri, new Attributes());
     }
-    
+
     protected Node() {
         this("");
     }
@@ -48,14 +48,14 @@ public abstract class Node implements Serializable, Cloneable {
     public String baseUri() {
         return baseUri;
     }
-    
+
     /**
      Get the node name of this node. Use for debugging purposes and not logic switching (for that, use instanceof).
      @return node name
      */
     public abstract String nodeName();
 
-    
+
         /**
      * Get an attribute's value by its key.
      * <p>
@@ -64,7 +64,7 @@ public abstract class Node implements Serializable, Cloneable {
      * </p>
      * E.g.:
      * <blockquote><code>String url = a.attr("abs:href");</code></blockquote>
-     * 
+     *
      * @param attributeKey The attribute key.
      * @return The attribute, or empty string if not present (to avoid nulls).
      * @see #attributes()
@@ -85,8 +85,7 @@ public abstract class Node implements Serializable, Cloneable {
      * @return attributes (which implements iterable, in same order as presented in original HTML).
      */
     public Attributes attributes() {
-        Attributes attrs = attributes.get(RenderingId.get());
-        return (attrs == null) ? attributes.get(0) : attrs;
+        return attributes.computeIfAbsent(RenderingId.get(), id -> attributes.get(0).clone());
     }
 
     /**
@@ -106,7 +105,7 @@ public abstract class Node implements Serializable, Cloneable {
         }
         return this;
     }
-    
+
     /**
      * Test if this element has an attribute.
      * @param attributeKey The attribute key to check.
@@ -135,7 +134,7 @@ public abstract class Node implements Serializable, Cloneable {
         List<Node> cs = childNodes.get(RenderingId.get());
         return (cs == null) ? childNodes.get(0) : cs;
     }
-    
+
     /**
      * Get the number of child nodes that this node holds.
      * @return the number of child nodes that this node holds.
@@ -144,7 +143,7 @@ public abstract class Node implements Serializable, Cloneable {
         List<Node> cs = childNodes.get(RenderingId.get());
         return (cs == null) ? childNodes.get(0).size() : cs.size();
     }
-    
+
     /**
      Gets this node's parent node.
      @return parent node; or null if no parent.
@@ -152,7 +151,7 @@ public abstract class Node implements Serializable, Cloneable {
     public Node parent() {
         return parentNode;
     }
-    
+
     public Node parentNode() {
         return parentNode;
     }
@@ -164,9 +163,9 @@ public abstract class Node implements Serializable, Cloneable {
         */
         this.parentNode = parentNode;
     }
-    
+
     /**
-     * Gets the Document associated with this Node. 
+     * Gets the Document associated with this Node.
      * @return the Document associated with this Node, or null if there is no such Document.
      */
     public Document ownerDocument() {
@@ -199,7 +198,7 @@ public abstract class Node implements Serializable, Cloneable {
         parentNode.addChildren(siblingIndex, node);
         return this;
     }
-    
+
     protected void addChildren(int index, Node... children) {
         Validate.noNullElements(children);
         for (int i = children.length - 1; i >= 0; i--) {
@@ -209,8 +208,8 @@ public abstract class Node implements Serializable, Cloneable {
             childNodes().add(index, in);
         }
         reindexChildren(index);
-    }    
-    
+    }
+
     protected void removeChild(Node out) {
         Validate.isTrue(out.parentNode == this);
         final int index = out.siblingIndex;
@@ -248,14 +247,14 @@ public abstract class Node implements Serializable, Cloneable {
     public Node nextSibling() {
         if (parentNode == null)
             return null; // root
-        
+
         final List<Node> siblings = parentNode.childNodes();
         final int index = siblingIndex+1;
         if (siblings.size() > index)
             return siblings.get(index);
         else
             return null;
- 
+
         /*
         List<Node> siblings = parentNode.childNodes();
         for (int i=0; i < siblings.size(); i++) {
@@ -270,7 +269,7 @@ public abstract class Node implements Serializable, Cloneable {
         return null;
         */
     }
-    
+
     /**
      * Get the list index of this node in its node sibling list. I.e. if this is the first node
      * sibling, returns 0.
@@ -280,11 +279,11 @@ public abstract class Node implements Serializable, Cloneable {
     public int siblingIndex() {
         return siblingIndex;
     }
-    
+
     protected void setSiblingIndex(int siblingIndex) {
         this.siblingIndex = siblingIndex;
     }
-    
+
    /**
      * Perform a depth-first traversal through this node and its descendants.
      * @param nodeVisitor the visitor callbacks to perform on each node
@@ -315,24 +314,24 @@ public abstract class Node implements Serializable, Cloneable {
     Document.OutputSettings getOutputSettings() {
         return ownerDocument() != null ? ownerDocument().outputSettings() : (new Document("")).outputSettings();
     }
-    
+
    @Override
     public String toString() {
         return outerHtml();
     }
-    
+
     public abstract void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out);
     public abstract void outerHtmlTail(StringBuilder accum, int depth, Document.OutputSettings out);
-    
+
     protected void indent(StringBuilder accum, int depth, Document.OutputSettings out) {
         accum.append("\n").append(StringUtil.padding(depth * out.indentAmount()));
     }
-    
+
     public void cleanThreadCache(int renderingId) {
         attributes.remove(renderingId);
         childNodes.remove(renderingId);
     }
-    
+
     private static class OuterHtmlVisitor implements NodeVisitor {
         private final StringBuilder accum;
         private final Document.OutputSettings out;
@@ -363,7 +362,7 @@ public abstract class Node implements Serializable, Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
-        
+
         return clone;
     }
 }

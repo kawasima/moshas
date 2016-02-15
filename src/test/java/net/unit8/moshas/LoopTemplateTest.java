@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.unit8.moshas.context.Context;
+import net.unit8.moshas.loader.ResourceTemplateLoader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +26,13 @@ public class LoopTemplateTest {
     @Before
     public void setup() throws IOException {
         MoshasEngine engine = new MoshasEngine();
-        template = engine.defineTemplate("META-INF/templates/stocks.moshas.html", t -> {
-            Snippet stockSnippet = engine.defineSnippet("META-INF/templates/stocks.moshas.html", "tbody > tr", s -> {
+        ResourceTemplateLoader resourceTemplateLoader = new ResourceTemplateLoader();
+        resourceTemplateLoader.setPrefix("META-INF/templates/");
+        resourceTemplateLoader.setSuffix(".html");
+
+        engine.getTemplateManager().setTemplateLoaders(resourceTemplateLoader);
+        template = engine.defineTemplate("stocks.moshas", t -> {
+            Snippet stockSnippet = engine.defineSnippet("stocks.moshas", "tbody > tr", s -> {
                 s.root((el, ctx) -> {
                     el.addClass(ctx.getInt("itemIndex") % 2 == 0 ? "even" : "odd");
                 });
@@ -83,7 +89,7 @@ public class LoopTemplateTest {
                 Context context = new Context(getContext());
                 Writer writer = new StringWriter();
                 template.render(context, writer);
-                Assert.assertEquals(5948, writer.toString().length());
+                Assert.assertEquals(5634, writer.toString().length());
             });
         }
         service.shutdown();
