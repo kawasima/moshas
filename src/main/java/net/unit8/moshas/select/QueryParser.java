@@ -1,12 +1,13 @@
 package net.unit8.moshas.select;
 
+import net.unit8.moshas.helper.StringUtil;
+import net.unit8.moshas.helper.Validate;
 import net.unit8.moshas.parser.TokenQueue;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.unit8.moshas.helper.StringUtil;
-import net.unit8.moshas.helper.Validate;
 
 /**
  *
@@ -270,7 +271,7 @@ class QueryParser {
     private void indexEquals() {
         evals.add(new Evaluator.IndexEquals(consumeIndex()));
     }
-    
+
     //pseudo selectors :first-child, :last-child, :nth-child, ...
     private static final Pattern NTH_AB = Pattern.compile("((\\+|-)?(\\d+)?)n(\\s*(\\+|-)?\\s*\\d+)?", Pattern.CASE_INSENSITIVE);
     private static final Pattern NTH_B  = Pattern.compile("(\\+|-)?(\\d+)");
@@ -353,5 +354,5 @@ class QueryParser {
 
         evals.add(new StructuralEvaluator.Not(parse(subQuery)));
     }
-    
+
 }

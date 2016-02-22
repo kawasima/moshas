@@ -12,6 +12,7 @@ import java.util.*;
 public abstract class AbstractContext implements IContext {
     private final List<VariableScope> scopes = new LinkedList<>();
     final PageScope defaultScope = new PageScope();
+    private boolean throwableException = false;
 
     protected AbstractContext() {
         setScope(defaultScope);
@@ -40,7 +41,11 @@ public abstract class AbstractContext implements IContext {
                     try {
                         current = PropertyUtils.getProperty(current, key);
                     } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-                        throw new RuntimeException(ex);
+                        if (throwableException) {
+                            throw new RuntimeException(ex);
+                        } else {
+                            return null;
+                        }
                     }
                 }
             }
@@ -51,15 +56,32 @@ public abstract class AbstractContext implements IContext {
     }
 
     public int getInt(String... keys) {
-        return (int) ConvertUtils.convert(get(keys), int.class);
+        try {
+            return (int) ConvertUtils.convert(get(keys), int.class);
+        } catch (Exception e) {
+            if (throwableException) {
+                throw e;
+            } else {
+                return 0;
+            }
+        }
     }
 
     public Double getDouble(String... keys) {
-        return (double)ConvertUtils.convert(get(keys), double.class);
+        try {
+            return (double)ConvertUtils.convert(get(keys), double.class);
+        } catch (Exception e) {
+            if (throwableException) {
+                throw e;
+            } else {
+                return 0.0;
+            }
+        }
     }
 
     public String getString(String... keys) {
-        return (String)ConvertUtils.convert(get(keys), String.class);
+        Object value = get(keys);
+        return value == null ? "" : (String) ConvertUtils.convert(value, String.class);
     }
 
     public <E> Collection<E> getCollection(String... keys) {
@@ -108,4 +130,7 @@ public abstract class AbstractContext implements IContext {
         }
     }
 
+    public void setThrowableException(boolean throwableException) {
+        this.throwableException = throwableException;
+    }
 }

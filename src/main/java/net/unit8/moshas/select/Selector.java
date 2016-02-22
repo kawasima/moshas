@@ -1,9 +1,10 @@
 package net.unit8.moshas.select;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
 import net.unit8.moshas.dom.Element;
 import net.unit8.moshas.helper.Validate;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 /**
  *
@@ -100,5 +101,5 @@ public class Selector {
             super(String.format(msg, params));
         }
     }
-    
+
 }

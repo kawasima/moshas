@@ -1,14 +1,9 @@
 package net.unit8.moshas.parser;
 
-import java.util.List;
-import net.unit8.moshas.dom.Comment;
-import net.unit8.moshas.dom.Document;
-import net.unit8.moshas.dom.DocumentType;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.dom.Node;
-import net.unit8.moshas.dom.TextNode;
-import net.unit8.moshas.dom.XmlDeclaration;
+import net.unit8.moshas.dom.*;
 import net.unit8.moshas.helper.Validate;
+
+import java.util.List;
 
 /**
  *
@@ -123,5 +118,5 @@ public class XmlTreeBuilder extends TreeBuilder {
         initialiseParse(inputFragment, baseUri, errors);
         runParser();
         return doc.childNodes();
-    }    
+    }
 }

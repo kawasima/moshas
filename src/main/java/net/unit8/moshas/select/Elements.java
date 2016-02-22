@@ -1,10 +1,11 @@
 package net.unit8.moshas.select;
 
+import net.unit8.moshas.dom.Element;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import net.unit8.moshas.dom.Element;
 
 /**
  *
@@ -21,11 +22,11 @@ public class Elements extends ArrayList<Element> {
     public Elements(Collection<Element> elements) {
         super(elements);
     }
-    
+
     public Elements(List<Element> elements) {
         super(elements);
     }
-    
+
     public Elements(Element... elements) {
     	super(Arrays.asList(elements));
     }
@@ -45,5 +46,5 @@ public class Elements extends ArrayList<Element> {
     public Element last() {
         return isEmpty() ? null : get(size() - 1);
     }
-    
+
 }

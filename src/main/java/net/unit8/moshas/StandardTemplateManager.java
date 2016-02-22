@@ -1,12 +1,9 @@
 package net.unit8.moshas;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import net.unit8.moshas.loader.ResourceTemplateLoader;
+import net.unit8.moshas.loader.TemplateLoader;
+import net.unit8.moshas.loader.TemplateNotFoundException;
+
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
@@ -15,9 +12,13 @@ import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.AccessedExpiryPolicy;
 import javax.cache.expiry.Duration;
 import javax.cache.spi.CachingProvider;
-import net.unit8.moshas.loader.ResourceTemplateLoader;
-import net.unit8.moshas.loader.TemplateLoader;
-import net.unit8.moshas.loader.TemplateNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  *

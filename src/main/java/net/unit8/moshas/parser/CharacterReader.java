@@ -1,8 +1,9 @@
 package net.unit8.moshas.parser;
 
+import net.unit8.moshas.helper.Validate;
+
 import java.util.Arrays;
 import java.util.Locale;
-import net.unit8.moshas.helper.Validate;
 
 /**
  *
@@ -391,5 +392,5 @@ class CharacterReader {
             return true;
         }
         return false;
-    }    
+    }
 }

@@ -1,15 +1,16 @@
 package net.unit8.moshas.dom;
 
+import net.unit8.moshas.helper.StringUtil;
+import net.unit8.moshas.helper.Validate;
+import net.unit8.moshas.select.NodeTraversor;
+import net.unit8.moshas.select.NodeVisitor;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import net.unit8.moshas.helper.StringUtil;
-import net.unit8.moshas.helper.Validate;
-import net.unit8.moshas.select.NodeTraversor;
-import net.unit8.moshas.select.NodeVisitor;
 
 /**
  *

@@ -1,11 +1,10 @@
 package net.unit8.moshas.helper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
+import net.unit8.moshas.dom.Document;
+import net.unit8.moshas.dom.Element;
+import net.unit8.moshas.parser.Parser;
+
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -13,9 +12,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.unit8.moshas.dom.Document;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.parser.Parser;
 
 /**
  *
@@ -225,5 +221,5 @@ public class DataUtil {
             mime.append(mimeBoundaryChars[rand.nextInt(mimeBoundaryChars.length)]);
         }
         return mime.toString();
-    }    
+    }
 }

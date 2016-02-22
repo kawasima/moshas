@@ -1,6 +1,7 @@
 package net.unit8.moshas.dom;
 
 import com.coverity.security.Escape;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class Attribute implements Map.Entry<String, String>, Cloneable, Serializ
         html(accum);
         return accum.toString();
     }
-    
+
     protected void html(StringBuilder accum) {
         accum.append(key);
         if (!shouldCollapseAttribute()) {
@@ -96,7 +97,7 @@ public class Attribute implements Map.Entry<String, String>, Cloneable, Serializ
 
     /**
      * Collapsible if it's a boolean attribute and value is empty or same as name
-     * 
+     *
      * @param out Outputsettings
      * @return  Returns whether collapsible or not
      */
@@ -135,5 +136,5 @@ public class Attribute implements Map.Entry<String, String>, Cloneable, Serializ
             throw new RuntimeException(e);
         }
     }
-    
+
 }

@@ -3,10 +3,11 @@ package net.unit8.moshas;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import java.io.StringWriter;
-
 import net.unit8.moshas.context.Context;
 import org.junit.Test;
+
+import java.io.StringWriter;
+
 import static net.unit8.moshas.RenderUtils.*;
 
 /**
@@ -24,13 +25,13 @@ public class TemplateTest {
         context.setVariable("message", "We changed the message!");
         index.render(context, System.out);
     }
-    
+
     @Test
     public void eachTest() {
         MoshasEngine engine = new MoshasEngine();
         Template eachTemplate = engine.defineTemplate("META-INF/templates/each.html", t -> {
             t.select("#title", text("title"));
-            
+
             Snippet linkSnippet = engine.defineSnippet("META-INF/templates/each.html" , ".section .content li", s ->
                     s.select("a",
                             doAll(
@@ -49,7 +50,7 @@ public class TemplateTest {
                     });
                 });
             });
-            
+
             t.select("body", (el, ctx) -> {
                 el.empty();
                 ctx.getCollection("sections").forEach(section ->

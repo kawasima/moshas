@@ -1,15 +1,16 @@
 package net.unit8.moshas.dom;
 
-import java.io.Serializable;
+import net.unit8.moshas.helper.Validate;
+import net.unit8.moshas.parser.Tag;
+import net.unit8.moshas.select.Collector;
 import net.unit8.moshas.select.Elements;
+import net.unit8.moshas.select.Evaluator;
+
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import net.unit8.moshas.helper.Validate;
-import net.unit8.moshas.parser.Tag;
-import net.unit8.moshas.select.Collector;
-import net.unit8.moshas.select.Evaluator;
 
 /**
  *

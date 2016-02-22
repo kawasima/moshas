@@ -1,13 +1,9 @@
 package net.unit8.moshas.parser;
 
-import java.util.ArrayList;
-import net.unit8.moshas.dom.Attribute;
-import net.unit8.moshas.dom.Attributes;
-import net.unit8.moshas.dom.Document;
-import net.unit8.moshas.dom.DocumentType;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.dom.Node;
+import net.unit8.moshas.dom.*;
 import net.unit8.moshas.helper.StringUtil;
+
+import java.util.ArrayList;
 
 /**
  * The Tree Builder's current state. Each state embodies the processing for the state, and transitions to other states.

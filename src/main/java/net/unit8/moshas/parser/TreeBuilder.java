@@ -1,10 +1,11 @@
 package net.unit8.moshas.parser;
 
-import java.util.ArrayList;
 import net.unit8.moshas.dom.Attributes;
 import net.unit8.moshas.dom.Document;
 import net.unit8.moshas.dom.Element;
 import net.unit8.moshas.helper.Validate;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -85,4 +86,4 @@ public abstract class TreeBuilder {
         int size = stack.size();
         return size > 0 ? stack.get(size-1) : null;
     }
-} 
+}

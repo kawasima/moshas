@@ -1,12 +1,7 @@
 package net.unit8.moshas.dom;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -40,7 +35,7 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
         Attribute attr = new Attribute(key, value);
         put(attr);
     }
-    
+
     /**
     Set a new boolean attribute, remove attribute if value is false.
     @param key attribute key
@@ -103,7 +98,7 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
             attributes = new LinkedHashMap<String, Attribute>(incoming.size());
         attributes.putAll(incoming.attributes);
     }
-    
+
     public Iterator<Attribute> iterator() {
         return asList().iterator();
     }
@@ -133,18 +128,18 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
         html(accum, (new Document("")).outputSettings()); // output settings a bit funky, but this html() seldom used
         return accum.toString();
     }
-    
+
     void html(StringBuilder accum, Document.OutputSettings out) {
         if (attributes == null)
             return;
-        
+
         for (Map.Entry<String, Attribute> entry : attributes.entrySet()) {
             Attribute attribute = entry.getValue();
             accum.append(" ");
             attribute.html(accum);
         }
     }
-    
+
     @Override
     public String toString() {
         return html();
@@ -159,9 +154,9 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Attributes)) return false;
-        
+
         Attributes that = (Attributes) o;
-        
+
         return !(attributes != null ? !attributes.equals(that.attributes) : that.attributes != null);
     }
 

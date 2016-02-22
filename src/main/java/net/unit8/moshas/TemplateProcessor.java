@@ -1,10 +1,10 @@
 package net.unit8.moshas;
 
-import java.io.Serializable;
-
 import net.unit8.moshas.context.Context;
 import net.unit8.moshas.dom.Element;
 import net.unit8.moshas.select.Elements;
+
+import java.io.Serializable;
 
 /**
  *
@@ -16,9 +16,9 @@ public class TemplateProcessor implements Serializable {
     public TemplateProcessor(Elements selectedElements, RenderFunction f) {
         this.selectedElements = selectedElements;
         this.f = f;
-        
+
     }
-    
+
     public void process(Element el, Context ctx) {
         if (selectedElements == null) {
             f.render(el, ctx);

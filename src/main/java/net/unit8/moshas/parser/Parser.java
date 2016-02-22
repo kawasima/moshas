@@ -1,9 +1,10 @@
 package net.unit8.moshas.parser;
 
-import java.util.List;
 import net.unit8.moshas.dom.Document;
 import net.unit8.moshas.dom.Element;
 import net.unit8.moshas.dom.Node;
+
+import java.util.List;
 
 /**
  *
@@ -11,7 +12,7 @@ import net.unit8.moshas.dom.Node;
  */
 public class Parser {
     private static final int DEFAULT_MAX_ERRORS = 0; // by default, error tracking is disabled.
-    
+
     private TreeBuilder treeBuilder;
     private int maxErrors = DEFAULT_MAX_ERRORS;
     private ParseErrorList errors;
@@ -23,7 +24,7 @@ public class Parser {
     public Parser(TreeBuilder treeBuilder) {
         this.treeBuilder = treeBuilder;
     }
-    
+
     public Document parseInput(String html, String baseUri) {
         errors = isTrackErrors() ? ParseErrorList.tracking(maxErrors) : ParseErrorList.noTracking();
         return treeBuilder.parse(html, baseUri, errors);
@@ -136,7 +137,7 @@ public class Parser {
     public static Document parseBodyFragmentRelaxed(String bodyHtml, String baseUri) {
         return parse(bodyHtml, baseUri);
     }
-    
+
     // builders
 
     /**
@@ -155,5 +156,5 @@ public class Parser {
      */
     public static Parser xmlParser() {
         return new Parser(new XmlTreeBuilder());
-    }    
+    }
 }

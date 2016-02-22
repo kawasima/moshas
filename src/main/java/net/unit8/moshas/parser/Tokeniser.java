@@ -1,8 +1,9 @@
 package net.unit8.moshas.parser;
 
-import java.util.Arrays;
 import net.unit8.moshas.dom.Entities;
 import net.unit8.moshas.helper.Validate;
+
+import java.util.Arrays;
 
 /**
  *
@@ -273,5 +274,5 @@ class Tokeniser {
             }
         }
         return builder.toString();
-    }    
+    }
 }

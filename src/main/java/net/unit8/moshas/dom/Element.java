@@ -1,22 +1,12 @@
 package net.unit8.moshas.dom;
 
-import net.unit8.moshas.select.Elements;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
 import net.unit8.moshas.helper.StringUtil;
 import net.unit8.moshas.helper.Validate;
 import net.unit8.moshas.parser.Tag;
-import net.unit8.moshas.select.Collector;
-import net.unit8.moshas.select.Evaluator;
-import net.unit8.moshas.select.NodeTraversor;
-import net.unit8.moshas.select.NodeVisitor;
-import net.unit8.moshas.select.Selector;
-import net.unit8.moshas.select.SkippableNodeTraversor;
-import net.unit8.moshas.select.SkippableNodeVisitor;
+import net.unit8.moshas.select.*;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  *

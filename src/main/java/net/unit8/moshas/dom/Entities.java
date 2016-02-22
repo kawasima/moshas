@@ -1,5 +1,8 @@
 package net.unit8.moshas.dom;
 
+import net.unit8.moshas.helper.StringUtil;
+import net.unit8.moshas.parser.Parser;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.CharsetEncoder;
@@ -7,8 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Properties;
-import net.unit8.moshas.helper.StringUtil;
-import net.unit8.moshas.parser.Parser;
 
 /**
  *

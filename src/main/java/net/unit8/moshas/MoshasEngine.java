@@ -13,9 +13,7 @@ public class MoshasEngine {
         Template template = manager.getTemplate(source);
         def.define(template);
         Element root = template.getRootElement();
-        for (Element child : root.children()) {
-            child.selected();
-        }
+        root.children().forEach(Element::selected);
         return template;
     }
 

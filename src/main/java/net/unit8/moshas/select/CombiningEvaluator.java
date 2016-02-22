@@ -1,10 +1,11 @@
 package net.unit8.moshas.select;
 
+import net.unit8.moshas.dom.Element;
+import net.unit8.moshas.helper.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.helper.StringUtil;
 
 /**
  *
@@ -28,7 +29,7 @@ abstract class CombiningEvaluator extends Evaluator {
     Evaluator rightMostEvaluator() {
         return num > 0 ? evaluators.get(num - 1) : null;
     }
-    
+
     void replaceRightMostEvaluator(Evaluator replacement) {
         evaluators.set(num - 1, replacement);
     }
@@ -101,5 +102,5 @@ abstract class CombiningEvaluator extends Evaluator {
             return String.format(":or%s", evaluators);
         }
     }
-    
+
 }

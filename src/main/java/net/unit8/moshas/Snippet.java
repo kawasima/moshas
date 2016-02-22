@@ -1,17 +1,17 @@
 package net.unit8.moshas;
 
+import net.unit8.moshas.context.Context;
+import net.unit8.moshas.dom.Element;
+import net.unit8.moshas.dom.RenderingId;
+import net.unit8.moshas.dom.SlotManager;
+import net.unit8.moshas.select.Elements;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.unit8.moshas.context.Context;
-import net.unit8.moshas.dom.RenderingId;
-import net.unit8.moshas.dom.SlotManager;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.select.Elements;
 
 /**
  *

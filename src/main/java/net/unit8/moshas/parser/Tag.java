@@ -1,9 +1,10 @@
 package net.unit8.moshas.parser;
 
+import net.unit8.moshas.helper.Validate;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import net.unit8.moshas.helper.Validate;
 
 /**
  *
@@ -41,7 +42,7 @@ public class Tag implements Serializable {
      * <p>
      * Pre-defined tags (P, DIV etc) will be ==, but unknown tags are not registered and will only .equals().
      * </p>
-     * 
+     *
      * @param tagName Name of tag, e.g. "p". Case insensitive.
      * @return The tag, either defined or new generic.
      */
@@ -303,5 +304,5 @@ public class Tag implements Serializable {
 
     private static void register(Tag tag) {
         tags.put(tag.tagName, tag);
-    }    
+    }
 }
