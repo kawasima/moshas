@@ -485,7 +485,8 @@ public abstract class Evaluator {
 		protected int calculatePosition(Element root, Element element) {
 			int pos = 0;
         	Elements family = element.parent().children();
-            for (Object aFamily : family) {
+
+            for (Element aFamily : family) {
                 if (aFamily.tag().equals(element.tag())) pos++;
                 if (aFamily == element) break;
             }
@@ -573,7 +574,7 @@ public abstract class Evaluator {
 
 			int pos = 0;
         	Elements family = p.children();
-            for (Object aFamily : family) {
+            for (Element aFamily : family) {
                 if (aFamily.tag().equals(element.tag())) pos++;
             }
         	return pos == 1;
