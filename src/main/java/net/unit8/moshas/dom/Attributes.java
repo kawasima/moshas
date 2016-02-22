@@ -2,6 +2,7 @@ package net.unit8.moshas.dom;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
      */
     public void put(Attribute attribute) {
         if (attributes == null)
-             attributes = new LinkedHashMap<String, Attribute>(2);
+             attributes = new LinkedHashMap<>(2);
         attributes.put(attribute.getKey(), attribute);
     }
 
@@ -95,7 +96,7 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
         if (incoming.size() == 0)
             return;
         if (attributes == null)
-            attributes = new LinkedHashMap<String, Attribute>(incoming.size());
+            attributes = new LinkedHashMap<>(incoming.size());
         attributes.putAll(incoming.attributes);
     }
 
@@ -112,10 +113,10 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
         if (attributes == null)
             return Collections.emptyList();
 
-        List<Attribute> list = new ArrayList<Attribute>(attributes.size());
-        for (Map.Entry<String, Attribute> entry : attributes.entrySet()) {
-            list.add(entry.getValue());
-        }
+        List<Attribute> list = new ArrayList<>(attributes.size());
+        list.addAll(attributes.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList()));
         return Collections.unmodifiableList(list);
     }
 
@@ -180,7 +181,7 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
-        clone.attributes = new LinkedHashMap<String, Attribute>(attributes.size());
+        clone.attributes = new LinkedHashMap<>(attributes.size());
         for (Attribute attribute: this)
             clone.attributes.put(attribute.getKey(), attribute.clone());
         return clone;

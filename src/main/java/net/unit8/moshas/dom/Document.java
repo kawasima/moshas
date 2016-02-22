@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,8 +26,6 @@ public class Document extends Element{
     /**
      Create a new, empty Document.
      @param baseUri base URI of document
-     @see org.jsoup.Jsoup#parse
-     @see #createShell
      */
     public Document(String baseUri) {
         super(Tag.valueOf("#root"), baseUri);
@@ -61,16 +60,14 @@ public class Document extends Element{
 
         Element master = elements.first(); // will always be available as created above if not existent
         if (elements.size() > 1) { // dupes, move contents to master
-            List<Node> toMove = new ArrayList<Node>();
+            List<Node> toMove = new ArrayList<>();
             for (int i = 1; i < elements.size(); i++) {
                 Node dupe = elements.get(i);
-                for (Node node : dupe.childNodes())
-                    toMove.add(node);
+                toMove.addAll(dupe.childNodes().stream().collect(Collectors.toList()));
                 dupe.remove();
             }
 
-            for (Node dupe : toMove)
-                master.appendChild(dupe);
+            toMove.forEach(master::appendChild);
         }
         // ensure parented by <html>
         if (!master.parent().equals(htmlEl)) {

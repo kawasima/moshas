@@ -37,9 +37,7 @@ public class MoshasEngineTest {
 
     @Test
     public void variableNotFound() {
-        Template template = engine.defineTemplate("META-INF/templates/index.html", t -> {
-            t.select("#message", text("message", "japanese"));
-        });
+        Template template = engine.defineTemplate("META-INF/templates/index.html", t -> t.select("#message", text("message", "japanese")));
         Context context = new Context();
         StringWriter writer = new StringWriter();
         template.render(context, writer);
@@ -47,9 +45,7 @@ public class MoshasEngineTest {
 
     @Test
     public void conversionError() {
-        Template template = engine.defineTemplate("META-INF/templates/index.html", t -> {
-            t.select("#message", (el, ctx) -> el.text(String.format(Locale.US, "%.2f", ctx.getDouble("message"))));
-        });
+        Template template = engine.defineTemplate("META-INF/templates/index.html", t -> t.select("#message", (el, ctx) -> el.text(String.format(Locale.US, "%.2f", ctx.getDouble("message")))));
         Context context = new Context();
         context.setVariable("message", 3.14);
         StringWriter writer = new StringWriter();

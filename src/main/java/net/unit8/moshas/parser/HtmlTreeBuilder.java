@@ -34,8 +34,8 @@ public class HtmlTreeBuilder extends TreeBuilder {
     private boolean baseUriSetFromDoc = false;
     private Element headElement; // the current head element
     private Element contextElement; // fragment parse context -- could be null even if fragment parsing
-    private final ArrayList<Element> formattingElements = new ArrayList<Element>(); // active (open) formatting elements
-    private List<String> pendingTableCharacters = new ArrayList<String>(); // chars in table to be shifted out
+    private final ArrayList<Element> formattingElements = new ArrayList<>(); // active (open) formatting elements
+    private List<String> pendingTableCharacters = new ArrayList<>(); // chars in table to be shifted out
     private final Token.EndTag emptyEnd = new Token.EndTag(); // reused empty end tag
 
     private boolean framesetOk = true; // if ok to go into frameset
@@ -85,7 +85,7 @@ public class HtmlTreeBuilder extends TreeBuilder {
         }
 
         runParser();
-        if (context != null && root != null)
+        if (context != null)
             return root.childNodes();
         else
             return doc.childNodes();
@@ -480,7 +480,7 @@ public class HtmlTreeBuilder extends TreeBuilder {
     }
 
     void newPendingTableCharacters() {
-        pendingTableCharacters = new ArrayList<String>();
+        pendingTableCharacters = new ArrayList<>();
     }
 
     List<String> getPendingTableCharacters() {

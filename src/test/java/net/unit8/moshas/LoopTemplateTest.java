@@ -33,10 +33,8 @@ public class LoopTemplateTest {
         engine.getTemplateManager().setTemplateLoaders(resourceTemplateLoader);
         template = engine.defineTemplate("stocks.moshas", t -> {
             Snippet stockSnippet = engine.defineSnippet("stocks.moshas", "tbody > tr", s -> {
-                s.root((el, ctx) -> {
-                    el.addClass(ctx.getInt("itemIndex") % 2 == 0 ? "even" : "odd");
-                });
-                s.select("td:eq(0)", (el, ctx) -> { el.text(ctx.getString("itemIndex")); });
+                s.root((el, ctx) -> el.addClass(ctx.getInt("itemIndex") % 2 == 0 ? "even" : "odd"));
+                s.select("td:eq(0)", (el, ctx) -> el.text(ctx.getString("itemIndex")));
                 s.select("td:eq(1) > a", (el, ctx) -> {
                     el.attr("href", "/stocks/" + ctx.getString("stock", "symbol"));
                     el.text(ctx.getString("stock", "symbol"));
@@ -45,7 +43,7 @@ public class LoopTemplateTest {
                     el.attr("href", ctx.getString("stock", "url"));
                     el.text(ctx.getString("stock", "name"));
                 });
-                s.select("td:eq(3) > strong", (el, ctx) -> { el.text(ctx.getString("stock", "price")); });
+                s.select("td:eq(3) > strong", (el, ctx) -> el.text(ctx.getString("stock", "price")));
                 s.select("td:eq(4)", (el, ctx) -> {
                     if (ctx.getDouble("stock", "change") < 0) {
                         el.attr("class", "minus");
@@ -64,11 +62,9 @@ public class LoopTemplateTest {
             t.select("tbody", (el, ctx) -> {
                 el.empty();
                 AtomicInteger counter = new AtomicInteger(0);
-                ctx.getCollection("items").forEach(item -> {
-                    ctx.localScope("stock", item, "itemIndex", counter.incrementAndGet(), () -> {
-                        el.appendChild(stockSnippet.render(ctx));
-                    });
-                });
+                ctx.getCollection("items").forEach(item -> ctx.localScope("stock", item, "itemIndex", counter.incrementAndGet(), () -> {
+                    el.appendChild(stockSnippet.render(ctx));
+                }));
             });
 
         });

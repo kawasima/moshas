@@ -25,7 +25,6 @@ public class Attribute implements Map.Entry<String, String>, Cloneable, Serializ
      * Create a new attribute from unencoded (raw) key and value.
      * @param key attribute key
      * @param value attribute value
-     * @see #createFromEncoded
      */
     public Attribute(String key, String value) {
         this.key = key.trim().toLowerCase();
@@ -98,7 +97,6 @@ public class Attribute implements Map.Entry<String, String>, Cloneable, Serializ
     /**
      * Collapsible if it's a boolean attribute and value is empty or same as name
      *
-     * @param out Outputsettings
      * @return  Returns whether collapsible or not
      */
     protected final boolean shouldCollapseAttribute() {

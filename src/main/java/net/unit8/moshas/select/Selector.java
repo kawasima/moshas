@@ -67,7 +67,7 @@ public class Selector {
         Validate.notEmpty(query);
         Validate.notNull(roots);
         Evaluator evaluator = QueryParser.parse(query);
-        LinkedHashSet<Element> elements = new LinkedHashSet<Element>();
+        LinkedHashSet<Element> elements = new LinkedHashSet<>();
 
         for (Element root : roots) {
             elements.addAll(select(evaluator, root));

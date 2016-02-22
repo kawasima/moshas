@@ -52,9 +52,7 @@ public class Snippet implements Serializable {
 
         int id = RenderingId.push();
         try {
-            processors.forEach((processor) -> {
-                processor.process(cloneElement, context);
-            });
+            processors.forEach((processor) -> processor.process(cloneElement, context));
             cloneElement.cachedHtml();
             cloneElement.renderedHtml();
             return cloneElement;

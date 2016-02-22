@@ -17,7 +17,7 @@ abstract class CombiningEvaluator extends Evaluator {
 
     CombiningEvaluator() {
         super();
-        evaluators = new ArrayList<Evaluator>();
+        evaluators = new ArrayList<>();
     }
 
     CombiningEvaluator(Collection<Evaluator> evaluators) {

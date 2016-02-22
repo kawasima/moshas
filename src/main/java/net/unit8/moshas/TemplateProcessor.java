@@ -23,9 +23,7 @@ public class TemplateProcessor implements Serializable {
         if (selectedElements == null) {
             f.render(el, ctx);
         } else {
-            selectedElements.forEach((child) -> {
-                f.render(child, ctx);
-            });
+            selectedElements.forEach((child) -> f.render(child, ctx));
         }
     }
 }

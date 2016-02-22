@@ -31,7 +31,7 @@ public abstract class TreeBuilder {
         reader = new CharacterReader(input);
         this.errors = errors;
         tokeniser = new Tokeniser(reader, errors);
-        stack = new ArrayList<Element>(32);
+        stack = new ArrayList<>(32);
         this.baseUri = baseUri;
     }
 

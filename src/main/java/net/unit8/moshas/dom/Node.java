@@ -61,7 +61,7 @@ public abstract class Node implements Serializable, Cloneable {
      * Get an attribute's value by its key.
      * <p>
      * To get an absolute URL from an attribute that may be a relative URL, prefix the key with <code><b>abs</b></code>,
-     * which is a shortcut to the {@link #absUrl} method.
+     * which is a shortcut to the absUrl method.
      * </p>
      * E.g.:
      * <blockquote><code>String url = a.attr("abs:href");</code></blockquote>
@@ -70,7 +70,6 @@ public abstract class Node implements Serializable, Cloneable {
      * @return The attribute, or empty string if not present (to avoid nulls).
      * @see #attributes()
      * @see #hasAttr(String)
-     * @see #absUrl(String)
      */
     public String attr(String attributeKey) {
         Validate.notNull(attributeKey);
@@ -190,7 +189,6 @@ public abstract class Node implements Serializable, Cloneable {
      * Insert the specified node into the DOM before this node (i.e. as a preceding sibling).
      * @param node to add before this node
      * @return this node, for chaining
-     * @see #after(Node)
      */
     public Node before(Node node) {
         Validate.notNull(node);
@@ -275,7 +273,6 @@ public abstract class Node implements Serializable, Cloneable {
      * Get the list index of this node in its node sibling list. I.e. if this is the first node
      * sibling, returns 0.
      * @return position in node sibling list
-     * @see org.jsoup.nodes.Element#elementSiblingIndex()
      */
     public int siblingIndex() {
         return siblingIndex;

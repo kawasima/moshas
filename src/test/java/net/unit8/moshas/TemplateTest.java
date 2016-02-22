@@ -18,9 +18,7 @@ public class TemplateTest {
     @Test
     public void test() {
         MoshasEngine engine = new MoshasEngine();
-        Template index = engine.defineTemplate("META-INF/templates/index.html", t -> {
-            t.select("p#message", text("message"));
-        });
+        Template index = engine.defineTemplate("META-INF/templates/index.html", t -> t.select("p#message", text("message")));
         Context context = new Context();
         context.setVariable("message", "We changed the message!");
         index.render(context, System.out);
@@ -43,11 +41,9 @@ public class TemplateTest {
                 s.select(".content", (el, ctx)-> {
                     el.empty();
 
-                    ctx.getCollection("section", "data").forEach(data -> {
-                        ctx.localScope("link", data, () -> {
-                            el.appendChild(linkSnippet.render(ctx));
-                        });
-                    });
+                    ctx.getCollection("section", "data").forEach(data -> ctx.localScope("link", data, () -> {
+                        el.appendChild(linkSnippet.render(ctx));
+                    }));
                 });
             });
 

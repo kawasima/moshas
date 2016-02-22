@@ -7,6 +7,7 @@ import net.unit8.moshas.select.*;
 
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,7 +26,6 @@ public class Element extends Node implements Cloneable {
      * @param baseUri the base URI
      * @param attributes initial attributes
      * @see #appendChild(Node)
-     * @see #appendElement(String)
      */
     public Element(Tag tag, String baseUri, Attributes attributes) {
         super(baseUri, attributes);
@@ -113,11 +113,11 @@ public class Element extends Node implements Cloneable {
      */
     public Elements children() {
         // create on the fly rather than maintaining two lists. if gets slow, memoize, and mark dirty on change
-        List<Element> elements = new ArrayList<Element>(childNodes().size());
-        for (Node node : childNodes()) {
-            if (node instanceof Element)
-                elements.add((Element) node);
-        }
+        List<Element> elements = new ArrayList<>(childNodes().size());
+        elements.addAll(childNodes().stream()
+                .filter(node -> node instanceof Element)
+                .map(node -> (Element) node)
+                .collect(Collectors.toList()));
         return new Elements(elements);
     }
 
@@ -132,13 +132,9 @@ public class Element extends Node implements Cloneable {
      * <li>{@code el.select("a[href]")} - finds links ({@code a} tags with {@code href} attributes)
      * <li>{@code el.select("a[href*=example.com]")} - finds links pointing to example.com (loosely)
      * </ul>
-     * <p>
-     * See the query syntax documentation in {@link org.jsoup.select.Selector}.
-     * </p>
      *
      * @param cssQuery a {@link Selector} CSS-like query
      * @return elements that match the query (empty if none match)
-     * @see org.jsoup.select.Selector
      * @throws Selector.SelectorParseException (unchecked) on an invalid CSS query.
      */
     public Elements select(String cssQuery) {
@@ -165,9 +161,9 @@ public class Element extends Node implements Cloneable {
 
         List<Element> elements = parent().children();
         Elements siblings = new Elements(elements.size() - 1);
-        for (Element el: elements)
-            if (el != this)
-                siblings.add(el);
+        siblings.addAll(elements.stream()
+                .filter(el -> el != this)
+                .collect(Collectors.toList()));
         return siblings;
     }
 
@@ -262,7 +258,7 @@ public class Element extends Node implements Cloneable {
      */
     public Set<String> classNames() {
     	String[] names = classSplit.split(className());
-    	Set<String> classNames = new LinkedHashSet<String>(Arrays.asList(names));
+    	Set<String> classNames = new LinkedHashSet<>(Arrays.asList(names));
     	classNames.remove(""); // if classNames() was empty, would include an empty class
 
         return classNames;
@@ -346,7 +342,6 @@ public class Element extends Node implements Cloneable {
      *
      * @return unencoded text, or empty string if none.
      * @see #ownText()
-     * @see #textNodes()
      */
     public String text() {
         final StringBuilder accum = new StringBuilder();
@@ -379,7 +374,6 @@ public class Element extends Node implements Cloneable {
      *
      * @return unencoded text, or empty string if none.
      * @see #text()
-     * @see #textNodes()
      */
     public String ownText() {
         StringBuilder sb = new StringBuilder();

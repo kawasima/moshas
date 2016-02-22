@@ -101,9 +101,7 @@ public abstract class AbstractContext implements IContext {
     }
 
     protected void setScope(VariableScope... scopes) {
-        for (VariableScope scope : scopes) {
-            this.scopes.add(scope);
-        }
+        Collections.addAll(this.scopes, scopes);
     }
 
     public void setVariable(String key, Object value) {
