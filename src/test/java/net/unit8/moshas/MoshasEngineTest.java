@@ -4,6 +4,8 @@ import net.unit8.moshas.context.Context;
 import net.unit8.moshas.loader.TemplateNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.StringWriter;
 import java.util.Locale;
@@ -13,12 +15,17 @@ import static net.unit8.moshas.RenderUtils.text;
 /**
  * @author kawasima
  */
+@RunWith(Parameterized.class)
 public class MoshasEngineTest {
-    MoshasEngine engine;
+    @Parameterized.Parameter(0)
+    public MoshasEngine engine;
 
-    @Before
-    public void setUpEngine() {
-        engine = new MoshasEngine();
+    @Parameterized.Parameters(name = "engine [{0}]")
+    public static Object[][] arguments() {
+        return new Object[][]{
+                {new MoshasEngine()},
+                {new MoshasEngine(new StandardTemplateManager(new ConcurrentHashMapTemplateCache()))}
+        };
     }
 
     @Test(expected = TemplateNotFoundException.class)

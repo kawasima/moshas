@@ -7,7 +7,15 @@ import net.unit8.moshas.dom.Element;
  * @author kawasima
  */
 public class MoshasEngine {
-    TemplateManager manager = new StandardTemplateManager();
+    final TemplateManager manager;
+
+    public MoshasEngine(TemplateManager manager) {
+        this.manager = manager;
+    }
+
+    public MoshasEngine() {
+        this(new StandardTemplateManager());
+    }
 
     public Template defineTemplate(String source, TemplateDefinition def) {
         Template template = manager.getTemplate(source);
