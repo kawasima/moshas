@@ -25,7 +25,7 @@ And define a template as follows:
 
 ```java
 MoshasEngine engine = new MoshasEngine();
-Template indexTemplate = engine.defineTemplate("META-INF/templates/index.html", t -> {
+Template indexTemplate = engine.defineTemplate("index", t -> {
     t.select("p#message", text("message"));
 });
 Context context = new Context();
@@ -33,4 +33,20 @@ context.setVariable("message", "We changed the message!");
 indexTemplate.render(context, System.out);
 ```
 
+## Manual
 
+### MoshasEngine
+
+Mo
+
+### Template
+
+The template is a.
+
+```java
+
+```
+
+### Snippet
+
+The snippet is a fragment of a template.

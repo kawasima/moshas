@@ -24,6 +24,9 @@ public class ResourceTemplateLoader extends TemplateLoader {
             templateSource = templateSource + suffix;
         }
 
+        if (templateSource.startsWith("/")) {
+            templateSource = templateSource.replaceAll("^/(.*)", "$1");
+        }
         InputStream is = cl.getResourceAsStream(templateSource);
         if (is == null) {
             throw new TemplateNotFoundException("Can't find template " + templateSource);
