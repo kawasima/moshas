@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class WebContext extends AbstractContext {
     public WebContext(ServletContext servletContext, HttpServletRequest request) {
-        super();
-
+        setScope(new RequestScope(request),
+                new SessionScope(request),
+                new ApplicationScope(servletContext));
     }
 }

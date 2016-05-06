@@ -1,6 +1,6 @@
 package net.unit8.moshas;
 
-import net.unit8.moshas.context.Context;
+import net.unit8.moshas.context.IContext;
 import net.unit8.moshas.dom.Element;
 import net.unit8.moshas.select.Elements;
 
@@ -19,7 +19,7 @@ public class TemplateProcessor implements Serializable {
 
     }
 
-    public void process(Element el, Context ctx) {
+    public void process(Element el, IContext ctx) {
         if (selectedElements == null) {
             f.render(el, ctx);
         } else {

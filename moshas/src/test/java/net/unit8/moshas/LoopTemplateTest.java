@@ -31,8 +31,8 @@ public class LoopTemplateTest {
         resourceTemplateLoader.setSuffix(".html");
 
         engine.getTemplateManager().setTemplateLoaders(resourceTemplateLoader);
-        template = engine.defineTemplate("stocks.moshas", t -> {
-            Snippet stockSnippet = engine.defineSnippet("stocks.moshas", "tbody > tr", s -> {
+        template = engine.describe("stocks.moshas", t -> {
+            Snippet stockSnippet = engine.describe("stocks.moshas", "tbody > tr", s -> {
                 s.root((el, ctx) -> el.addClass(ctx.getInt("itemIndex") % 2 == 0 ? "even" : "odd"));
                 s.select("td:eq(0)", (el, ctx) -> el.text(ctx.getString("itemIndex")));
                 s.select("td:eq(1) > a", (el, ctx) -> {

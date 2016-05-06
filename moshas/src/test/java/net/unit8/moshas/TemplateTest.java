@@ -18,7 +18,7 @@ public class TemplateTest {
     @Test
     public void test() {
         MoshasEngine engine = new MoshasEngine();
-        Template index = engine.defineTemplate("META-INF/templates/index.html", t -> t.select("p#message", text("message")));
+        Template index = engine.describe("META-INF/templates/index.html", t -> t.select("p#message", text("message")));
         Context context = new Context();
         context.setVariable("message", "We changed the message!");
         index.render(context, System.out);
@@ -27,16 +27,16 @@ public class TemplateTest {
     @Test
     public void eachTest() {
         MoshasEngine engine = new MoshasEngine();
-        Template eachTemplate = engine.defineTemplate("META-INF/templates/each.html", t -> {
+        Template eachTemplate = engine.describe("META-INF/templates/each.html", t -> {
             t.select("#title", text("title"));
 
-            Snippet linkSnippet = engine.defineSnippet("META-INF/templates/each.html" , ".section .content li", s ->
+            Snippet linkSnippet = engine.describe("META-INF/templates/each.html" , ".section .content li", s ->
                     s.select("a",
                             doAll(
                                     attr("href", "link", "href"),
                                     text("link", "text"))));
 
-            Snippet sectionSnippet = engine.defineSnippet("META-INF/templates/each.html",".section", s -> {
+            Snippet sectionSnippet = engine.describe("META-INF/templates/each.html",".section", s -> {
                 s.select(".title", text("section", "title"));
                 s.select(".content", (el, ctx)-> {
                     el.empty();

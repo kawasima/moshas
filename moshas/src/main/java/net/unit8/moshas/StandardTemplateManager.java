@@ -31,19 +31,23 @@ public class StandardTemplateManager implements TemplateManager {
     }
 
     @Override
-    public Template getTemplate(String source) {
-        Template template = cache.getTemplate(source);
-        if (template != null) {
-            return template;
-        }
-
-        try (InputStream is = findTemplate(source)) {
-            Template newTemplate = new Template(is);
-            cache.putTemplate(source, newTemplate);
+    public Template loadTemplate(String templateName) {
+        try (InputStream is = findTemplate(templateName)) {
+            Template newTemplate = new DefaultTemplate(is);
             return newTemplate;
         } catch (IOException e) {
-            throw new TemplateNotFoundException(source, e);
+            throw new TemplateNotFoundException(templateName, e);
         }
+    }
+
+    @Override
+    public Template getTemplate(String templateName) {
+        return cache.getTemplate(templateName);
+    }
+
+    @Override
+    public void cacheTemplate(String templateName, Template template) {
+        cache.putTemplate(templateName, template);
     }
 
     @Override

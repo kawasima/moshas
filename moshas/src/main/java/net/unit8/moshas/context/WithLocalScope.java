@@ -1,9 +1,12 @@
 package net.unit8.moshas.context;
 
+import java.io.Serializable;
+
 /**
  *
  * @author kawasima
  */
-public interface WithLocalScope {
+@FunctionalInterface
+public interface WithLocalScope extends Serializable {
     void evaluate();
 }

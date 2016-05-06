@@ -55,6 +55,7 @@ public abstract class AbstractContext implements IContext {
         }
     }
 
+    @Override
     public int getInt(String... keys) {
         try {
             return (int) ConvertUtils.convert(get(keys), int.class);
@@ -67,6 +68,7 @@ public abstract class AbstractContext implements IContext {
         }
     }
 
+    @Override
     public Double getDouble(String... keys) {
         try {
             return (double)ConvertUtils.convert(get(keys), double.class);
@@ -79,11 +81,13 @@ public abstract class AbstractContext implements IContext {
         }
     }
 
+    @Override
     public String getString(String... keys) {
         Object value = get(keys);
         return value == null ? "" : (String) ConvertUtils.convert(value, String.class);
     }
 
+    @Override
     public <E> Collection<E> getCollection(String... keys) {
         Object val = get(keys);
         if (val == null) {
@@ -107,6 +111,7 @@ public abstract class AbstractContext implements IContext {
     public void setVariable(String key, Object value) {
         defaultScope.set(key, value);
     }
+    @Override
     public void localScope(String n1, Object v1, String n2, Object v2, WithLocalScope f) {
         defaultScope.set(n1, v1);
         defaultScope.set(n2, v2);
@@ -119,6 +124,7 @@ public abstract class AbstractContext implements IContext {
         }
     }
 
+    @Override
     public void localScope(String name, Object value, WithLocalScope f) {
         defaultScope.set(name, value);
         try {

@@ -211,17 +211,18 @@ public abstract class Node implements Serializable, Cloneable {
 
     protected void removeChild(Node out) {
         Validate.isTrue(out.parentNode == this);
+
+        ensureChildNodes();
         final int index = out.siblingIndex;
         childNodes().remove(index);
         reindexChildren(index);
-        out.parentNode = null;
     }
 
     protected void ensureChildNodes() {
         Integer id = RenderingId.get();
         List<Node> cns = childNodes.get(id);
         if (cns == EMPTY_NODES || cns == null) {
-            childNodes.put(id, new ArrayList<>(4));
+            childNodes.put(id, new ArrayList<>(childNodes.get(0)));
         }
     }
 
@@ -234,7 +235,7 @@ public abstract class Node implements Serializable, Cloneable {
     }
 
     private void reindexChildren(int start) {
-        for (int i = start; i < childNodes.size(); i++) {
+        for (int i = start; i < childNodes().size(); i++) {
             childNodes().get(i).setSiblingIndex(i);
         }
     }
