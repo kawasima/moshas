@@ -116,6 +116,17 @@ public abstract class Node implements Serializable, Cloneable {
     }
 
     /**
+     * Remove an attribute from this element.
+     * @param attributeKey The attribute to remove.
+     * @return this (for chaining)
+     */
+    public Node removeAttr(String attributeKey) {
+        Validate.notNull(attributeKey);
+        attributes().remove(attributeKey);
+        return this;
+    }
+
+    /**
      Get a child node by its 0-based index.
      @param index index of child node
      @return the child node at this index. Throws a {@code IndexOutOfBoundsException} if the index is out of bounds.
