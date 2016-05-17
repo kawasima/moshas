@@ -1,6 +1,6 @@
 package net.unit8.moshas;
 
-import net.unit8.moshas.context.Context;
+import net.unit8.moshas.context.IContext;
 import net.unit8.moshas.dom.Element;
 
 import java.io.StringWriter;
@@ -39,6 +39,10 @@ public class MoshasEngine {
     }
 
     public Template describe(String templateName, ViewLogicDescriber describer) {
+        if (describer == null) {
+            throw new IllegalArgumentException("describer is required");
+        }
+
         Template template = manager.loadTemplate(templateName);
 
         describeSnippet(template, describer);
@@ -47,6 +51,7 @@ public class MoshasEngine {
         root.children().forEach(Element::selected);
 
         manager.cacheTemplate(templateName, template);
+        describerCache.put(templateName, describer);
         return template;
     }
 
@@ -57,16 +62,20 @@ public class MoshasEngine {
         return describeSnippet(snippet, describer);
     }
 
-    public String process(String templateName, Context context) {
+    public String process(String templateName, IContext context) {
         StringWriter sw = new StringWriter();
         process(templateName, context, sw);
         return sw.toString();
     }
 
-    public void process(String templateName, Context context, Writer writer) {
+    public void process(String templateName, IContext context, Writer writer) {
         Template template = manager.getTemplate(templateName);
         if (template == null) {
-            template = describe(templateName, describerCache.get(templateName));
+            if (describerCache.containsKey(templateName)) {
+                template = describe(templateName, describerCache.get(templateName));
+            } else {
+                throw new TemplateNotDescribedException(templateName);
+            }
         }
         template.render(context, writer);
     }

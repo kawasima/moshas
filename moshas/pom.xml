@@ -10,7 +10,7 @@
 
     <groupId>net.unit8.moshas</groupId>
     <artifactId>moshas</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
 
     <name>moshas</name>
@@ -56,6 +56,14 @@
             <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
+        <!--
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-client</artifactId>
+            <version>3.6.2</version>
+            <scope>test</scope>
+        </dependency>
+        -->
     </dependencies>
 
     <developers>

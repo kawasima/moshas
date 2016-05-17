@@ -1,8 +1,6 @@
 package net.unit8.moshas;
 
 import net.unit8.moshas.context.Context;
-import net.unit8.moshas.dom.Element;
-import net.unit8.moshas.parser.Tag;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
