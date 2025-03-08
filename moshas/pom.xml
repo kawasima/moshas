@@ -3,24 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
+        <groupId>net.unit8.moshas</groupId>
+        <artifactId>moshas-parent</artifactId>
+        <version>0.3.0</version>
+        <relativePath>..</relativePath>
     </parent>
 
-    <groupId>net.unit8.moshas</groupId>
     <artifactId>moshas</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>moshas</name>
     <url>https://github.com/kawasima/moshas.git</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -45,39 +38,6 @@
             <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-client</artifactId>
-            <version>3.6.2</version>
-            <scope>test</scope>
-        </dependency>
-        -->
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <developers>
-        <developer>
-            <id>kawasima</id>
-            <name>Yoshitaka Kawashima</name>
-            <email>kawasima1016@gmail.com</email>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.orglicenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
 </project>

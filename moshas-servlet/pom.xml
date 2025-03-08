@@ -3,23 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
+        <groupId>net.unit8.moshas</groupId>
+        <artifactId>moshas-parent</artifactId>
+        <version>0.3.0</version>
+        <relativePath>..</relativePath>
     </parent>
 
-    <groupId>net.unit8.moshas</groupId>
     <artifactId>moshas-servlet</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>moshas-servlet</name>
     <url>https://github.com/kawasima/moshas-servlet.git</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>21</maven.compiler.release>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -37,7 +31,7 @@
         <dependency>
             <groupId>net.unit8.moshas</groupId>
             <artifactId>moshas</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -46,14 +40,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
