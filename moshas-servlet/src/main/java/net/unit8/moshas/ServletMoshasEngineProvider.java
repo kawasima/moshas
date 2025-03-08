@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 /**
  * @author kawasima
  */
-public class ServletMoshasEngineProvier {
+public class ServletMoshasEngineProvider {
     private static MoshasEngine engine = new MoshasEngine();
 
     public static void init(Consumer<MoshasEngine> initializer) {

@@ -83,13 +83,13 @@ public class ExampleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
         // Define template manipulation
-        ServletMoshasEngineProvier.get().describe("/index.html", t -> {
+        ServletMoshasEngineProvider.get().describe("/index.html", t -> {
             t.select("#message", (el, ctx) -> el.text("Hello from Moshas!"));
         });
         
         // Process the template
         WebContext context = new WebContext(getServletContext(), req);
-        MoshasEngine engine = ServletMoshasEngineProvier.get();
+        MoshasEngine engine = ServletMoshasEngineProvider.get();
         engine.process("/index.html", context, resp.getWriter());
     }
 }

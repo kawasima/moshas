@@ -1,6 +1,6 @@
 package net.unit8.moshas.loader;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.io.InputStream;
 
 /**

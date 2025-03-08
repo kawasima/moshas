@@ -1,6 +1,6 @@
 package net.unit8.moshas.context;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * @author kawasima
