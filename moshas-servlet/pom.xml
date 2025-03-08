@@ -3,48 +3,41 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
+        <groupId>net.unit8.moshas</groupId>
+        <artifactId>moshas-parent</artifactId>
+        <version>0.3.0</version>
+        <relativePath>..</relativePath>
     </parent>
 
-    <groupId>net.unit8.moshas</groupId>
     <artifactId>moshas-servlet</artifactId>
-    <version>0.2.0</version>
     <packaging>jar</packaging>
 
     <name>moshas-servlet</name>
     <url>https://github.com/kawasima/moshas-servlet.git</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.unit8.moshas</groupId>
             <artifactId>moshas</artifactId>
-            <version>0.2.0</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.0.44-beta</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

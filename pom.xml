@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
+    <groupId>net.unit8.moshas</groupId>
+    <artifactId>moshas-parent</artifactId>
+    <version>0.3.0</version>
+    <packaging>pom</packaging>
+
+    <name>Moshas Parent</name>
+    <description>Parent POM for Moshas Template Engine</description>
+    <url>https://github.com/kawasima/moshas</url>
+
+    <modules>
+        <module>moshas</module>
+        <module>moshas-servlet</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>21</maven.compiler.release>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <developers>
+        <developer>
+            <id>kawasima</id>
+            <name>Yoshitaka Kawashima</name>
+            <email>kawasima1016@gmail.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+</project> 

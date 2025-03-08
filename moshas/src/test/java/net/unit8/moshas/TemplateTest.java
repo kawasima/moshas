@@ -1,12 +1,12 @@
 package net.unit8.moshas;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import net.unit8.moshas.context.Context;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static net.unit8.moshas.RenderUtils.*;
 
@@ -58,24 +58,24 @@ public class TemplateTest {
         });
         Context context = new Context();
         context.setVariable("title", "Moshas  Template2 Tutorial");
-        context.setVariable("sections", Lists.newArrayList(
-                ImmutableMap.of(
+        context.setVariable("sections", new ArrayList<>(List.of(
+                Map.of(
                         "title", "Clojure",
-                        "data", ImmutableList.of(
-                                ImmutableMap.of(
+                        "data", List.of(
+                                Map.of(
                                         "text", "Macros",
                                         "href", "http://www.clojure.org/macros")
                         )),
-                ImmutableMap.of(
+                Map.of(
                         "title", "Compojure",
-                        "data", ImmutableList.of(
-                                ImmutableMap.of(
+                        "data", List.of(
+                                Map.of(
                                         "text", "Requests",
                                         "href", "http://www.compojure.org/docs/requests"),
-                                ImmutableMap.of(
+                                Map.of(
                                         "text", "Middleware",
                                         "href", "http://www.compojure.org/docs/middleware")))
-        ));
+        )));
         long t1 = System.currentTimeMillis();
         for (int i=0; i < 1; i++) {
             StringWriter writer = new StringWriter();

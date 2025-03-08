@@ -2,9 +2,9 @@ package net.unit8.moshas;
 
 import net.unit8.moshas.context.Context;
 import net.unit8.moshas.loader.ResourceTemplateLoader;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LoopTemplateTest {
     private Template template;
 
-    @Before
+    @BeforeEach
     public void setup() throws IOException {
         MoshasEngine engine = new MoshasEngine();
         ResourceTemplateLoader resourceTemplateLoader = new ResourceTemplateLoader();
@@ -85,7 +85,7 @@ public class LoopTemplateTest {
                 Context context = new Context(getContext());
                 Writer writer = new StringWriter();
                 template.render(context, writer);
-                Assert.assertEquals(5634, writer.toString().length());
+                Assertions.assertEquals(5634, writer.toString().length());
             });
         }
         service.shutdown();

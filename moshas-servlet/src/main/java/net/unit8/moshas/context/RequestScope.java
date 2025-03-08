@@ -1,6 +1,6 @@
 package net.unit8.moshas.context;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author kawasima
