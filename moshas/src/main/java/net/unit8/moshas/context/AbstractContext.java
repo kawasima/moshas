@@ -1,9 +1,6 @@
 package net.unit8.moshas.context;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -16,6 +13,50 @@ public abstract class AbstractContext implements IContext {
 
     protected AbstractContext() {
         setScope(defaultScope);
+    }
+
+    private Object getProperty(Object bean, String propertyName) {
+        try {
+            String methodName = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+            Method method = bean.getClass().getMethod(methodName);
+            return method.invoke(bean);
+        } catch (Exception ex) {
+            if (throwableException) {
+                throw new RuntimeException(ex);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    private Object convert(Object value, Class<?> targetType) {
+        if (value == null) {
+            return null;
+        }
+        
+        if (targetType.isInstance(value)) {
+            return value;
+        }
+
+        String stringValue = String.valueOf(value);
+        
+        if (targetType == int.class || targetType == Integer.class) {
+            try {
+                return Integer.parseInt(stringValue);
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        } else if (targetType == double.class || targetType == Double.class) {
+            try {
+                return Double.parseDouble(stringValue);
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
+        } else if (targetType == String.class) {
+            return stringValue;
+        }
+        
+        return value;
     }
 
     @Override
@@ -38,15 +79,10 @@ public abstract class AbstractContext implements IContext {
                 if (current instanceof Map) {
                     current = ((Map) current).get(key);
                 } else {
-                    try {
-                        current = PropertyUtils.getProperty(current, key);
-                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-                        if (throwableException) {
-                            throw new RuntimeException(ex);
-                        } else {
-                            return null;
-                        }
-                    }
+                    current = getProperty(current, key);
+                }
+                if (current == null) {
+                    return null;
                 }
             }
             return current;
@@ -57,34 +93,18 @@ public abstract class AbstractContext implements IContext {
 
     @Override
     public int getInt(String... keys) {
-        try {
-            return (int) ConvertUtils.convert(get(keys), int.class);
-        } catch (Exception e) {
-            if (throwableException) {
-                throw e;
-            } else {
-                return 0;
-            }
-        }
+        return (int) convert(get(keys), int.class);
     }
 
     @Override
     public Double getDouble(String... keys) {
-        try {
-            return (double)ConvertUtils.convert(get(keys), double.class);
-        } catch (Exception e) {
-            if (throwableException) {
-                throw e;
-            } else {
-                return 0.0;
-            }
-        }
+        return (Double) convert(get(keys), Double.class);
     }
 
     @Override
     public String getString(String... keys) {
         Object value = get(keys);
-        return value == null ? "" : (String) ConvertUtils.convert(value, String.class);
+        return value == null ? "" : (String) convert(value, String.class);
     }
 
     @Override
@@ -111,6 +131,7 @@ public abstract class AbstractContext implements IContext {
     public void setVariable(String key, Object value) {
         defaultScope.set(key, value);
     }
+
     @Override
     public void localScope(String n1, Object v1, String n2, Object v2, WithLocalScope f) {
         defaultScope.set(n1, v1);
