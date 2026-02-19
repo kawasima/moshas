@@ -15,4 +15,4 @@ target
 .idea
 .vscode
 
-*.pom.xml.versionsBackup
+pom.xml.versionsBackup

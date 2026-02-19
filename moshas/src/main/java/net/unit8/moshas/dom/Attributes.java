@@ -2,7 +2,6 @@ package net.unit8.moshas.dom;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -101,7 +100,9 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
     }
 
     public Iterator<Attribute> iterator() {
-        return asList().iterator();
+        if (attributes == null)
+            return Collections.emptyIterator();
+        return Collections.unmodifiableCollection(attributes.values()).iterator();
     }
 
     /**
@@ -113,11 +114,7 @@ public class Attributes implements Iterable<Attribute>, Cloneable, Serializable 
         if (attributes == null)
             return Collections.emptyList();
 
-        List<Attribute> list = new ArrayList<>(attributes.size());
-        list.addAll(attributes.entrySet().stream()
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList()));
-        return Collections.unmodifiableList(list);
+        return Collections.unmodifiableList(new ArrayList<>(attributes.values()));
     }
 
     /**

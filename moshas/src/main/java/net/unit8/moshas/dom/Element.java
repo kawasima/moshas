@@ -113,11 +113,13 @@ public class Element extends Node implements Cloneable {
      */
     public Elements children() {
         // create on the fly rather than maintaining two lists. if gets slow, memoize, and mark dirty on change
-        List<Element> elements = new ArrayList<>(childNodes().size());
-        elements.addAll(childNodes().stream()
-                .filter(node -> node instanceof Element)
-                .map(node -> (Element) node)
-                .collect(Collectors.toList()));
+        List<Node> nodes = childNodes();
+        List<Element> elements = new ArrayList<>(nodes.size());
+        for (Node node : nodes) {
+            if (node instanceof Element) {
+                elements.add((Element) node);
+            }
+        }
         return new Elements(elements);
     }
 
@@ -463,31 +465,33 @@ public class Element extends Node implements Cloneable {
 
     public String cachedHtml() {
         if (renderedHtml == null) {
-            final Document.OutputSettings out = getOutputSettings();
+            final Document.OutputSettings out = getOutputSettings().clone();
             out.prettyPrint(false);
             final StringBuilder accum = new StringBuilder(4096);
             if (!(this instanceof Document)) {
                 outerHtmlHead(accum, 0, out);
             }
-            for (Node node : childNodes()) {
-                new SkippableNodeTraversor(new SkippableNodeVisitor() {
-                    @Override
-                    public boolean head(Node node, int depth) {
-                        if (node.renderedHtml == null) {
-                            node.outerHtmlHead(accum, depth, out);
-                        } else {
-                            accum.append(node.renderedHtml);
-                        }
-                        return node.renderedHtml != null;
+            SkippableNodeVisitor visitor = new SkippableNodeVisitor() {
+                @Override
+                public boolean head(Node node, int depth) {
+                    if (node.renderedHtml == null) {
+                        node.outerHtmlHead(accum, depth, out);
+                    } else {
+                        accum.append(node.renderedHtml);
                     }
+                    return node.renderedHtml != null;
+                }
 
-                    @Override
-                    public boolean tail(Node node, int depth) {
-                        if (!node.nodeName().equals("#text") && node.renderedHtml == null) // saves a void hit.
-                            node.outerHtmlTail(accum, depth, out);
-                        return true;
-                    }
-                }).traverse(node);
+                @Override
+                public boolean tail(Node node, int depth) {
+                    if (!node.nodeName().equals("#text") && node.renderedHtml == null) // saves a void hit.
+                        node.outerHtmlTail(accum, depth, out);
+                    return true;
+                }
+            };
+            SkippableNodeTraversor traversor = new SkippableNodeTraversor(visitor);
+            for (Node node : childNodes()) {
+                traversor.traverse(node);
             }
             if (!(this instanceof Document)) {
                 outerHtmlTail(accum, 0, out);
