@@ -13,12 +13,8 @@ public class SlotManager {
 
     private static final Map<Integer, HashSet<Element>> modifiedElements = new ConcurrentHashMap<>();
 
-    private static HashSet<Element> newSet() {
-        return new HashSet<>();
-    }
     public static void add(Element el) {
-        modifiedElements.putIfAbsent(RenderingId.get(), newSet());
-        modifiedElements.get(RenderingId.get()).add(el);
+        modifiedElements.computeIfAbsent(RenderingId.get(), k -> new HashSet<>()).add(el);
     }
 
     public static void clear(Integer id) {

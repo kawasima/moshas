@@ -96,12 +96,14 @@ public abstract class Node implements Serializable, Cloneable {
      */
     public Node attr(String attributeKey, String attributeValue) {
         needsRerender = true;
-        if (attributes.containsKey(RenderingId.get())) {
-            attributes.get(RenderingId.get()).put(attributeKey, attributeValue);
+        int id = RenderingId.get();
+        Attributes attrs = attributes.get(id);
+        if (attrs != null) {
+            attrs.put(attributeKey, attributeValue);
         } else {
             Attributes newAttrs = attributes.get(0).clone();
             newAttrs.put(attributeKey, attributeValue);
-            attributes.put(RenderingId.get(), newAttrs);
+            attributes.put(id, newAttrs);
         }
         return this;
     }
@@ -320,9 +322,12 @@ public abstract class Node implements Serializable, Cloneable {
         new NodeTraversor(new OuterHtmlVisitor(accum, getOutputSettings())).traverse(this);
     }
 
+    private static final Document.OutputSettings DEFAULT_OUTPUT_SETTINGS = new Document("").outputSettings();
+
     // if this node has no document (or parent), retrieve the default output settings
     Document.OutputSettings getOutputSettings() {
-        return ownerDocument() != null ? ownerDocument().outputSettings() : (new Document("")).outputSettings();
+        Document doc = ownerDocument();
+        return doc != null ? doc.outputSettings() : DEFAULT_OUTPUT_SETTINGS;
     }
 
    @Override

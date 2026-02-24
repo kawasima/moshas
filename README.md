@@ -25,7 +25,7 @@ Add the following dependency to your `pom.xml`:
 <dependency>
     <groupId>net.unit8.moshas</groupId>
     <artifactId>moshas-servlet</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.1</version>
 </dependency>
 ```
 

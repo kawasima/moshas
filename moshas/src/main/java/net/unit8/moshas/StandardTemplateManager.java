@@ -1,6 +1,6 @@
 package net.unit8.moshas;
 
-import net.unit8.moshas.cache.JCacheTemplateCache;
+import net.unit8.moshas.cache.LruTemplateCache;
 import net.unit8.moshas.cache.TemplateCache;
 import net.unit8.moshas.loader.ResourceTemplateLoader;
 import net.unit8.moshas.loader.TemplateLoader;
@@ -27,7 +27,7 @@ public class StandardTemplateManager implements TemplateManager {
     }
 
     public StandardTemplateManager() {
-        this(new JCacheTemplateCache());
+        this(new LruTemplateCache());
     }
 
     @Override

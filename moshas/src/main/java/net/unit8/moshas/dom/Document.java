@@ -187,6 +187,7 @@ public class Document extends Element{
 
         private Entities.EscapeMode escapeMode = Entities.EscapeMode.base;
         private String charsetName = "UTF-8";
+        private transient CharsetEncoder cachedEncoder;
         private boolean prettyPrint = true;
         private boolean outline = false;
         private int indentAmount = 1;
@@ -236,6 +237,7 @@ public class Document extends Element{
          */
         public OutputSettings charset(Charset charset) {
             charsetName = charset.name();
+            cachedEncoder = null;
             return this;
         }
 
@@ -250,7 +252,10 @@ public class Document extends Element{
         }
 
         CharsetEncoder encoder() {
-            return Charset.forName(charsetName).newEncoder();
+            if (cachedEncoder == null || !cachedEncoder.charset().name().equals(charsetName)) {
+                cachedEncoder = Charset.forName(charsetName).newEncoder();
+            }
+            return cachedEncoder;
         }
 
         /**
